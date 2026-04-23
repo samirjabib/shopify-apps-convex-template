@@ -307,8 +307,8 @@ export default function Index() {
         </s-paragraph>
         <s-paragraph>
           <s-text>Database: </s-text>
-          <s-link href="https://www.prisma.io/" target="_blank">
-            Prisma
+          <s-link href="https://www.convex.dev/" target="_blank">
+            Convex
           </s-link>
         </s-paragraph>
       </s-section>
