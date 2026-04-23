@@ -9,16 +9,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   if (session) {
     try {
-      // @ts-expect-error ConvexHttpClient types don't accept internal FunctionReferences
-      await convex.mutation(internal.sessions.deleteByShopInternal, { shop });
+      await convex.mutation(internal.sessions.handleUninstallInternal, {
+        shop,
+      });
     } catch (err) {
-      console.error("deleteByShopInternal failed", err);
-    }
-    try {
-      // @ts-expect-error ConvexHttpClient types don't accept internal FunctionReferences
-      await convex.mutation(internal.shops.markUninstalledInternal, { shop });
-    } catch (err) {
-      console.error("markUninstalledInternal failed", err);
+      console.error("handleUninstallInternal failed", err);
     }
   }
 

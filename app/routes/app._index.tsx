@@ -65,8 +65,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   );
   const responseJson = await response.json();
 
-  const product = responseJson.data?.productCreate?.product!;
-  const variantId = product.variants.edges[0]?.node?.id!;
+  const product = responseJson.data?.productCreate?.product;
+  const variantId = product?.variants.edges[0]?.node?.id;
+  if (!product || !variantId) {
+    throw new Response("productCreate failed", { status: 500 });
+  }
 
   const variantResponse = await admin.graphql(
     `#graphql
@@ -147,7 +150,7 @@ export default function Index() {
   const sessionToken = useShopifySessionToken();
   // useAction doesn't support "skip" — gate with state
   const [shopData, setShopData] = useState<
-    null | undefined | { shop: string; installedAt: number; scope?: string }
+    null | undefined | { shop: string; _creationTime: number; scope?: string }
   >(undefined);
   const getShop = useAction(api.shops.get);
   useEffect(() => {
@@ -362,7 +365,7 @@ export default function Index() {
           ) : (
             <s-text>
               Shop: {shopData.shop} | Installed:{" "}
-              {new Date(shopData.installedAt).toLocaleDateString()}
+              {new Date(shopData._creationTime).toLocaleDateString()}
               {shopData.scope ? ` | Scopes: ${shopData.scope}` : ""}
             </s-text>
           )}

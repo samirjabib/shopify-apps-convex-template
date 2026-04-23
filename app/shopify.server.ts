@@ -25,13 +25,19 @@ const shopify = shopifyApp({
     : {}),
   hooks: {
     afterAuth: async ({ session }) => {
-      convex
-        .mutation(
-          // @ts-expect-error ConvexHttpClient types don't accept internal FunctionReferences
-          internal.shops.upsertInternal,
-          { shop: session.shop, scope: session.scope },
-        )
-        .catch((err) => console.error("afterAuth upsertInternal failed", err));
+      // Awaited: the mutation only *enqueues* the upsert via
+      // ctx.scheduler.runAfter(0, ...) so it's fast AND durable. Convex
+      // commits the schedule atomically; if this call throws, OAuth fails
+      // loudly instead of silently dropping the shop record.
+      try {
+        await convex.mutation(internal.shops.enqueueInstallInternal, {
+          shop: session.shop,
+          scope: session.scope,
+        });
+      } catch (err) {
+        console.error("afterAuth enqueueInstallInternal failed", err);
+        throw err;
+      }
     },
   },
 });

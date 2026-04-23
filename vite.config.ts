@@ -18,22 +18,27 @@ if (
 const host = new URL(process.env.SHOPIFY_APP_URL || "http://localhost")
   .hostname;
 
-let hmrConfig;
-if (host === "localhost") {
-  hmrConfig = {
-    protocol: "ws",
-    host: "localhost",
-    port: 64999,
-    clientPort: 64999,
-  };
-} else {
-  hmrConfig = {
-    protocol: "wss",
-    host: host,
-    port: parseInt(process.env.FRONTEND_PORT!, 10) || 8002,
-    clientPort: 443,
-  };
-}
+type HmrConfig = {
+  protocol: "ws" | "wss";
+  host: string;
+  port: number;
+  clientPort: number;
+};
+
+const hmrConfig: HmrConfig =
+  host === "localhost"
+    ? {
+        protocol: "ws",
+        host: "localhost",
+        port: 64999,
+        clientPort: 64999,
+      }
+    : {
+        protocol: "wss",
+        host,
+        port: Number.parseInt(process.env.FRONTEND_PORT ?? "", 10) || 8002,
+        clientPort: 443,
+      };
 
 export default defineConfig({
   server: {

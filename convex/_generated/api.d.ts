@@ -8,8 +8,8 @@
  * @module
  */
 
+import type * as crons from "../crons.js";
 import type * as lib_auth from "../lib/auth.js";
-import type * as lib_rateLimit from "../lib/rateLimit.js";
 import type * as sessions from "../sessions.js";
 import type * as shops from "../shops.js";
 
@@ -20,8 +20,8 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  crons: typeof crons;
   "lib/auth": typeof lib_auth;
-  "lib/rateLimit": typeof lib_rateLimit;
   sessions: typeof sessions;
   shops: typeof shops;
 }>;
@@ -52,4 +52,6 @@ export declare const internal: FilterApi<
   FunctionReference<any, "internal">
 >;
 
-export declare const components: {};
+export declare const components: {
+  rateLimiter: import("@convex-dev/rate-limiter/_generated/component.js").ComponentApi<"rateLimiter">;
+};

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-// Updates CONVEX_DEPLOY_KEY in .env from local Convex backend state.
-// Only needed for local development — cloud deployments use a real deploy key.
+// Updates CONVEX_ADMIN_KEY in .env from local Convex backend state.
+// Only needed for local development — cloud deployments must use a real
+// deployment admin key from the Convex dashboard (NOT the CLI deploy key).
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -32,12 +33,12 @@ function setVar(content, key, value) {
   return `${content}\n${key}=${value}`;
 }
 
-env = setVar(env, "CONVEX_DEPLOY_KEY", adminKey);
+env = setVar(env, "CONVEX_ADMIN_KEY", adminKey);
 env = setVar(env, "CONVEX_URL", convexUrl);
 env = setVar(env, "VITE_CONVEX_URL", convexUrl);
 
 writeFileSync(envPath, env);
 console.log("Updated .env:");
-console.log(`  CONVEX_DEPLOY_KEY=${adminKey.substring(0, 30)}...`);
+console.log(`  CONVEX_ADMIN_KEY=${adminKey.substring(0, 30)}...`);
 console.log(`  CONVEX_URL=${convexUrl}`);
 console.log(`  VITE_CONVEX_URL=${convexUrl}`);
