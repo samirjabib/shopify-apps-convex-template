@@ -1,0 +1,91 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    ":dependencyDashboard",
+    "group:monorepos",
+    "group:recommended",
+    "schedule:weekly",
+    ":automergePatch"
+  ],
+  "timezone": "America/Argentina/Buenos_Aires",
+  "prConcurrentLimit": 3,
+  "prHourlyLimit": 2,
+  "rangeStrategy": "bump",
+  "labels": ["dependencies"],
+  "semanticCommitScope": "deps",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 9am on monday"],
+    "commitMessageAction": "refresh",
+    "automerge": true
+  },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["security"],
+    "automerge": true,
+    "schedule": ["at any time"]
+  },
+  "packageRules": [
+    {
+      "description": "Auto-merge patch, pin, and digest updates after CI passes",
+      "matchUpdateTypes": ["patch", "pin", "digest"],
+      "automerge": true,
+      "platformAutomerge": true
+    },
+    {
+      "description": "Group Shopify ecosystem updates",
+      "matchPackageNames": ["/^@shopify//"],
+      "groupName": "shopify"
+    },
+    {
+      "description": "Group React Router v7 ecosystem",
+      "matchPackageNames": ["/^@react-router//", "react-router"],
+      "groupName": "react-router"
+    },
+    {
+      "description": "Convex runs codegen on upgrade so lockstep with generated files",
+      "matchPackageNames": ["convex"],
+      "groupName": "convex",
+      "postUpgradeTasks": {
+        "commands": ["npx convex codegen"],
+        "fileFilters": ["convex/_generated/**"],
+        "executionMode": "update"
+      }
+    },
+    {
+      "description": "Biome pinned exactly (no caret) — single tool replacing ESLint+Prettier",
+      "matchPackageNames": ["@biomejs/biome"],
+      "groupName": "biome",
+      "rangeStrategy": "pin"
+    },
+    {
+      "description": "Auto-merge Biome patch+minor since single tool, low breakage risk",
+      "matchPackageNames": ["@biomejs/biome"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "automerge": true
+    },
+    {
+      "description": "Auto-merge @types/* packages",
+      "matchPackageNames": ["/^@types//"],
+      "groupName": "types",
+      "automerge": true
+    },
+    {
+      "description": "Majors require manual approval via dashboard",
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "p-map pinned via package.json overrides — do not touch",
+      "matchPackageNames": ["p-map"],
+      "enabled": false
+    },
+    {
+      "description": "Node engines — manual only",
+      "matchDepTypes": ["engines"],
+      "enabled": false
+    }
+  ]
+}
