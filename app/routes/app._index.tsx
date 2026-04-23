@@ -9,7 +9,7 @@ import type {
 } from "react-router";
 import { useFetcher } from "react-router";
 import { api } from "../../convex/_generated/api";
-import { useShopifySessionToken } from "../lib/session-token.client";
+import { useShopifySessionToken } from "../lib/session-token";
 import { authenticate } from "../shopify.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
