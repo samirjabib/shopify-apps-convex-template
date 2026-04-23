@@ -1,11 +1,16 @@
 #!/usr/bin/env node
 // Updates CONVEX_DEPLOY_KEY in .env from local Convex backend state.
 // Only needed for local development — cloud deployments use a real deploy key.
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { homedir } from "node:os";
 
-const configPath = join(process.cwd(), ".convex", "local", "default", "config.json");
+const configPath = join(
+  process.cwd(),
+  ".convex",
+  "local",
+  "default",
+  "config.json",
+);
 
 if (!existsSync(configPath)) {
   console.error("No local Convex backend config found at", configPath);
@@ -24,7 +29,7 @@ function setVar(content, key, value) {
   if (regex.test(content)) {
     return content.replace(regex, `${key}=${value}`);
   }
-  return content + `\n${key}=${value}`;
+  return `${content}\n${key}=${value}`;
 }
 
 env = setVar(env, "CONVEX_DEPLOY_KEY", adminKey);
