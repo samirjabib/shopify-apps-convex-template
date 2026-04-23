@@ -4,6 +4,7 @@ import {
   AppDistribution,
   shopifyApp,
 } from "@shopify/shopify-app-react-router/server";
+import { internal } from "../convex/_generated/api";
 import convex from "./convex.server";
 import { ConvexSessionStorage } from "./lib/session-storage.server";
 
@@ -22,6 +23,18 @@ const shopify = shopifyApp({
   ...(process.env.SHOP_CUSTOM_DOMAIN
     ? { customShopDomains: [process.env.SHOP_CUSTOM_DOMAIN] }
     : {}),
+  hooks: {
+    afterAuth: async ({ session }) => {
+      await convex.mutation(
+        // @ts-expect-error ConvexHttpClient types don't accept internal FunctionReferences
+        internal.shops.upsertInternal,
+        {
+          shop: session.shop,
+          scope: session.scope,
+        },
+      );
+    },
+  },
 });
 
 export default shopify;
