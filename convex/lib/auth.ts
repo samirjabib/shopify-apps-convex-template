@@ -52,8 +52,12 @@ export async function requireShopifyAuth(
   const now = Math.floor(Date.now() / 1000);
   if (payload.exp < now) throw new ConvexError("Token expired");
   if (payload.nbf > now) throw new ConvexError("Token not yet valid");
-  if (payload.aud !== apiKey) throw new ConvexError("Wrong audience");
+  const aud = Array.isArray(payload.aud) ? payload.aud : [payload.aud];
+  if (!aud.includes(apiKey)) throw new ConvexError("Wrong audience");
   if (!payload.dest) throw new ConvexError("Missing dest");
+  if (!payload.iss || !payload.iss.endsWith("/admin")) {
+    throw new ConvexError("Invalid issuer");
+  }
 
   const shop = new URL(payload.dest).hostname;
   return { shop, userId: payload.sub };
