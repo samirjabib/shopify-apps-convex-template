@@ -16,7 +16,7 @@ Opinionated boilerplate for embedded Shopify admin apps. RR7 server-side renderi
 
 1. `nvm use` (reads `.nvmrc`)
 2. `npm install`
-3. `npx convex dev` — logs in, creates project, writes `CONVEX_URL` to `.env.local`
+3. `npm run convex:dev` — starts Convex using `.env.local`, creates or reuses the local deployment, and syncs `CONVEX_URL` / `CONVEX_DEPLOY_KEY` into `.env`
 4. Convex dashboard → Settings → Deploy Keys → generate dev deploy key
 5. Create `.env` from `.env.example`, fill:
    - `SHOPIFY_API_KEY`, `SHOPIFY_API_SECRET`, `SHOPIFY_APP_URL`, `SCOPES`
@@ -24,12 +24,24 @@ Opinionated boilerplate for embedded Shopify admin apps. RR7 server-side renderi
 6. Push secrets to Convex: `npx convex env set SHOPIFY_API_KEY <v>` and same for `SHOPIFY_API_SECRET`
 7. Two terminals: `npm run dev` + `npm run convex:dev`
 
+### Local Convex note
+
+This repo keeps the app server settings in `.env`, but Convex CLI project selection lives in `.env.local`.
+
+Use `npm run convex:dev` for local development. The wrapper script:
+
+- runs `convex dev --env-file .env.local`
+- avoids the `InvalidDeploymentName` error caused by the CLI reading the local admin key from `.env`
+- updates `.env` from `.convex/local/default/config.json` whenever the local backend changes
+
+If you need to invoke the CLI directly, use `npx convex dev --env-file .env.local`.
+
 ## Scripts
 
 | Command | Purpose |
 |---|---|
 | `npm run dev` | Shopify CLI dev with embedded app tunnel |
-| `npm run convex:dev` | Convex dev server + codegen watcher |
+| `npm run convex:dev` | Convex dev server + codegen watcher + local `.env` sync |
 | `npm run typecheck` | `react-router typegen` + `tsc --noEmit` |
 | `npm run ci:check` | Biome CI (format + lint + imports, read-only) |
 | `npm run check` | Biome check + auto-fix |
