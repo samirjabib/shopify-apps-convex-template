@@ -19,6 +19,7 @@
     "convex": "convex",
     "convex:dev": "node scripts/convex-dev.js",
     "convex:deploy": "convex deploy",
+    "convex:env:sync": "node scripts/convex-env-sync.js",
     "convex:key": "node scripts/convex-key.js",
     "graphql-codegen": "graphql-codegen",
     "vite": "vite",
