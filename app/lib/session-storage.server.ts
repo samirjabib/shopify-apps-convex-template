@@ -2,6 +2,7 @@
 import { Session } from "@shopify/shopify-app-react-router/server";
 import type { ConvexHttpClient } from "convex/browser";
 import { internal } from "../../convex/_generated/api";
+import type { Doc } from "../../convex/_generated/dataModel";
 
 /**
  * Minimal SessionStorage interface from @shopify/shopify-app-session-storage.
@@ -85,8 +86,7 @@ function serialize(s: Session) {
   };
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: Convex row type not importable here
-function deserialize(row: any): Session {
+function deserialize(row: Doc<"sessions">): Session {
   const s = new Session({
     id: row.sessionId,
     shop: row.shop,
