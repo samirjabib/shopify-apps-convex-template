@@ -5,17 +5,24 @@ import {
   shopifyApp,
 } from "@shopify/shopify-app-react-router/server";
 import { internal } from "../convex/_generated/api";
-import convex from "./convex.server";
+import { runMutation } from "./convex.server";
 import { ConvexSessionStorage } from "./lib/session-storage.server";
 
+const apiKey = process.env.SHOPIFY_API_KEY;
+const apiSecretKey = process.env.SHOPIFY_API_SECRET;
+const appUrl = process.env.SHOPIFY_APP_URL;
+if (!apiKey) throw new Error("SHOPIFY_API_KEY not set");
+if (!apiSecretKey) throw new Error("SHOPIFY_API_SECRET not set");
+if (!appUrl) throw new Error("SHOPIFY_APP_URL not set");
+
 const shopify = shopifyApp({
-  apiKey: process.env.SHOPIFY_API_KEY,
-  apiSecretKey: process.env.SHOPIFY_API_SECRET || "",
+  apiKey,
+  apiSecretKey,
   apiVersion: ApiVersion.October25,
   scopes: process.env.SCOPES?.split(","),
-  appUrl: process.env.SHOPIFY_APP_URL || "",
+  appUrl,
   authPathPrefix: "/auth",
-  sessionStorage: new ConvexSessionStorage(convex),
+  sessionStorage: new ConvexSessionStorage(),
   distribution: AppDistribution.AppStore,
   future: {
     expiringOfflineAccessTokens: true,
@@ -25,13 +32,10 @@ const shopify = shopifyApp({
     : {}),
   hooks: {
     afterAuth: async ({ session }) => {
-      convex
-        .mutation(
-          // @ts-expect-error ConvexHttpClient types don't accept internal FunctionReferences
-          internal.shops.upsertInternal,
-          { shop: session.shop, scope: session.scope },
-        )
-        .catch((err) => console.error("afterAuth upsertInternal failed", err));
+      runMutation(internal.shops.upsertInternal, {
+        shop: session.shop,
+        scope: session.scope,
+      }).catch((err) => console.error("afterAuth upsertInternal failed", err));
     },
   },
 });

@@ -1,13 +1,8 @@
-// app/lib/session-storage.server.ts
 import { Session } from "@shopify/shopify-app-react-router/server";
-import type { ConvexHttpClient } from "convex/browser";
 import { internal } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
+import { runMutation, runQuery } from "../convex.server";
 
-/**
- * Minimal SessionStorage interface from @shopify/shopify-app-session-storage.
- * Defined inline to avoid depending on the nested package path.
- */
 export interface SessionStorage {
   storeSession(session: Session): Promise<boolean>;
   loadSession(id: string): Promise<Session | undefined>;
@@ -17,12 +12,9 @@ export interface SessionStorage {
 }
 
 export class ConvexSessionStorage implements SessionStorage {
-  constructor(private client: ConvexHttpClient) {}
-
   async storeSession(session: Session): Promise<boolean> {
     try {
-      // @ts-expect-error ConvexHttpClient types don't accept internal FunctionReferences
-      await this.client.mutation(internal.sessions.storeInternal, {
+      await runMutation(internal.sessions.storeInternal, {
         session: serialize(session),
       });
       return true;
@@ -34,11 +26,9 @@ export class ConvexSessionStorage implements SessionStorage {
 
   async loadSession(id: string): Promise<Session | undefined> {
     try {
-      const row = await this.client.query(
-        // @ts-expect-error ConvexHttpClient types don't accept internal FunctionReferences
-        internal.sessions.loadBySessionIdInternal,
-        { sessionId: id },
-      );
+      const row = await runQuery(internal.sessions.loadBySessionIdInternal, {
+        sessionId: id,
+      });
       return row ? deserialize(row) : undefined;
     } catch (err) {
       console.error("ConvexSessionStorage.loadSession failed", err);
@@ -48,8 +38,7 @@ export class ConvexSessionStorage implements SessionStorage {
 
   async deleteSession(id: string): Promise<boolean> {
     try {
-      // @ts-expect-error ConvexHttpClient types don't accept internal FunctionReferences
-      await this.client.mutation(internal.sessions.deleteBySessionIdInternal, {
+      await runMutation(internal.sessions.deleteBySessionIdInternal, {
         sessionId: id,
       });
       return true;
@@ -61,8 +50,7 @@ export class ConvexSessionStorage implements SessionStorage {
 
   async deleteSessions(ids: string[]): Promise<boolean> {
     try {
-      // @ts-expect-error ConvexHttpClient types don't accept internal FunctionReferences
-      await this.client.mutation(internal.sessions.deleteManyInternal, {
+      await runMutation(internal.sessions.deleteManyInternal, {
         sessionIds: ids,
       });
       return true;
@@ -74,11 +62,9 @@ export class ConvexSessionStorage implements SessionStorage {
 
   async findSessionsByShop(shop: string): Promise<Session[]> {
     try {
-      const rows = await this.client.query(
-        // @ts-expect-error ConvexHttpClient types don't accept internal FunctionReferences
-        internal.sessions.findByShopInternal,
-        { shop },
-      );
+      const rows = await runQuery(internal.sessions.findByShopInternal, {
+        shop,
+      });
       return rows.map(deserialize);
     } catch (err) {
       console.error("ConvexSessionStorage.findSessionsByShop failed", err);

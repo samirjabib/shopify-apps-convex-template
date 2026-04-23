@@ -23,7 +23,8 @@ export default defineSchema({
     refreshTokenExpires: v.optional(v.number()),
   })
     .index("by_sessionId", ["sessionId"])
-    .index("by_shop", ["shop"]),
+    .index("by_shop", ["shop"])
+    .index("by_expires", ["expires"]),
 
   shops: defineTable({
     shop: v.string(),

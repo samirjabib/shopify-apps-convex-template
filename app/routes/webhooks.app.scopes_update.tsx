@@ -1,7 +1,6 @@
-// app/routes/webhooks.app.scopes_update.tsx
 import type { ActionFunctionArgs } from "react-router";
 import { internal } from "../../convex/_generated/api";
-import convex from "../convex.server";
+import { runMutation } from "../convex.server";
 import { authenticate } from "../shopify.server";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -11,8 +10,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const current = payload.current as string[];
   if (session) {
     try {
-      // @ts-expect-error ConvexHttpClient types don't accept internal FunctionReferences
-      await convex.mutation(internal.sessions.updateScopeInternal, {
+      await runMutation(internal.sessions.updateScopeInternal, {
         sessionId: session.id,
         scope: current.toString(),
       });

@@ -1,9 +1,8 @@
-// convex/lib/rateLimit.ts
-import { ConvexError } from "convex/values";
-import type { MutationCtx } from "../_generated/server";
+import { ConvexError, v } from "convex/values";
+import { internalMutation, type MutationCtx } from "../_generated/server";
 
-const WINDOW_MS = 60_000; // 1 minute
-const MAX_REQUESTS = 30; // per window per key
+const WINDOW_MS = 60_000;
+const MAX_REQUESTS = 30;
 
 export async function checkRateLimit(
   ctx: MutationCtx,
@@ -31,3 +30,26 @@ export async function checkRateLimit(
 
   await ctx.db.patch(existing._id, { count: existing.count + 1 });
 }
+
+export const checkRateLimitInternal = internalMutation({
+  args: { key: v.string() },
+  returns: v.null(),
+  handler: async (ctx, { key }) => {
+    await checkRateLimit(ctx, key);
+    return null;
+  },
+});
+
+export const sweepRateLimitsInternal = internalMutation({
+  args: {},
+  returns: v.number(),
+  handler: async (ctx) => {
+    const cutoff = Date.now() - WINDOW_MS * 2;
+    const stale = await ctx.db
+      .query("rateLimits")
+      .filter((q) => q.lt(q.field("windowStart"), cutoff))
+      .collect();
+    for (const row of stale) await ctx.db.delete(row._id);
+    return stale.length;
+  },
+});
