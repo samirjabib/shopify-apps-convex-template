@@ -19,6 +19,13 @@ function timingSafeEqual(a: Uint8Array, b: Uint8Array): boolean {
   return diff === 0;
 }
 
+function isValidShopDomain(host: string): boolean {
+  if (host.endsWith(".myshopify.com")) return true;
+  const custom = process.env.SHOP_CUSTOM_DOMAIN;
+  if (custom && host === custom) return true;
+  return false;
+}
+
 export async function requireShopifyAuth(
   token: string,
 ): Promise<{ shop: string; userId?: string }> {
@@ -29,6 +36,13 @@ export async function requireShopifyAuth(
   const parts = token.split(".");
   if (parts.length !== 3) throw new ConvexError("Malformed token");
   const [headerB64, payloadB64, sigB64] = parts;
+
+  const header = JSON.parse(
+    new TextDecoder().decode(base64UrlDecode(headerB64)),
+  );
+  if (header.alg !== "HS256" || header.typ !== "JWT") {
+    throw new ConvexError("Invalid token header");
+  }
 
   const key = await crypto.subtle.importKey(
     "raw",
@@ -50,15 +64,29 @@ export async function requireShopifyAuth(
     new TextDecoder().decode(base64UrlDecode(payloadB64)),
   );
   const now = Math.floor(Date.now() / 1000);
-  if (payload.exp < now) throw new ConvexError("Token expired");
-  if (payload.nbf > now) throw new ConvexError("Token not yet valid");
+  if (typeof payload.exp !== "number" || payload.exp < now) {
+    throw new ConvexError("Token expired");
+  }
+  if (payload.nbf !== undefined) {
+    if (typeof payload.nbf !== "number" || payload.nbf > now) {
+      throw new ConvexError("Token not yet valid");
+    }
+  }
   const aud = Array.isArray(payload.aud) ? payload.aud : [payload.aud];
   if (!aud.includes(apiKey)) throw new ConvexError("Wrong audience");
-  if (!payload.dest) throw new ConvexError("Missing dest");
-  if (!payload.iss?.endsWith("/admin")) {
+  if (typeof payload.dest !== "string") throw new ConvexError("Missing dest");
+  if (typeof payload.iss !== "string" || !payload.iss.endsWith("/admin")) {
     throw new ConvexError("Invalid issuer");
   }
 
-  const shop = new URL(payload.dest).hostname;
-  return { shop, userId: payload.sub };
+  let host: string;
+  try {
+    host = new URL(payload.dest).hostname;
+  } catch {
+    throw new ConvexError("Invalid dest");
+  }
+  if (!isValidShopDomain(host)) throw new ConvexError("Invalid shop domain");
+
+  const userId = typeof payload.sub === "string" ? payload.sub : undefined;
+  return { shop: host, userId };
 }
