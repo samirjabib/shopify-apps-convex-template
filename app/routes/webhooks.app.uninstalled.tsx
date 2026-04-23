@@ -1,4 +1,3 @@
-// app/routes/webhooks.app.uninstalled.tsx
 import type { ActionFunctionArgs } from "react-router";
 import { internal } from "../../convex/_generated/api";
 import convex from "../convex.server";
@@ -10,10 +9,15 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   if (session) {
     try {
-      // @ts-expect-error
       await convex.mutation(internal.sessions.deleteByShopInternal, { shop });
     } catch (err) {
       console.error("deleteByShopInternal failed", err);
+    }
+    try {
+      // @ts-expect-error ConvexHttpClient types don't accept internal FunctionReferences
+      await convex.mutation(internal.shops.markUninstalledInternal, { shop });
+    } catch (err) {
+      console.error("markUninstalledInternal failed", err);
     }
   }
 
