@@ -1,16 +1,20 @@
+// app/routes/webhooks.app.uninstalled.tsx
 import type { ActionFunctionArgs } from "react-router";
-import db from "../db.server";
 import { authenticate } from "../shopify.server";
+import convex from "../convex.server";
+import { internal } from "../../convex/_generated/api";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const { shop, session, topic } = await authenticate.webhook(request);
-
   console.log(`Received ${topic} webhook for ${shop}`);
 
-  // Webhook requests can trigger multiple times and after an app has already been uninstalled.
-  // If this webhook already ran, the session may have been deleted previously.
   if (session) {
-    await db.session.deleteMany({ where: { shop } });
+    try {
+      // @ts-expect-error
+      await convex.mutation(internal.sessions.deleteByShopInternal, { shop });
+    } catch (err) {
+      console.error("deleteByShopInternal failed", err);
+    }
   }
 
   return new Response();
