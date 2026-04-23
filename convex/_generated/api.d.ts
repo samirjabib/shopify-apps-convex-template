@@ -9,6 +9,7 @@
  */
 
 import type * as lib_auth from "../lib/auth.js";
+import type * as lib_rateLimit from "../lib/rateLimit.js";
 import type * as sessions from "../sessions.js";
 import type * as shops from "../shops.js";
 
@@ -20,6 +21,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   "lib/auth": typeof lib_auth;
+  "lib/rateLimit": typeof lib_rateLimit;
   sessions: typeof sessions;
   shops: typeof shops;
 }>;

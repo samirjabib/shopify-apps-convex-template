@@ -32,4 +32,10 @@ export default defineSchema({
     ownerEmail: v.optional(v.string()),
     uninstalledAt: v.optional(v.number()),
   }).index("by_shop", ["shop"]),
+
+  rateLimits: defineTable({
+    key: v.string(),
+    count: v.number(),
+    windowStart: v.number(),
+  }).index("by_key", ["key"]),
 });

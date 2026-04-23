@@ -55,7 +55,7 @@ export async function requireShopifyAuth(
   const aud = Array.isArray(payload.aud) ? payload.aud : [payload.aud];
   if (!aud.includes(apiKey)) throw new ConvexError("Wrong audience");
   if (!payload.dest) throw new ConvexError("Missing dest");
-  if (!payload.iss || !payload.iss.endsWith("/admin")) {
+  if (!payload.iss?.endsWith("/admin")) {
     throw new ConvexError("Invalid issuer");
   }
 
