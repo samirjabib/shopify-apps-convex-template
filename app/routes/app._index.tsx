@@ -1,5 +1,6 @@
 import { useAppBridge } from "@shopify/app-bridge-react";
 import { boundary } from "@shopify/shopify-app-react-router/server";
+import { useQuery } from "convex/react";
 import { useEffect } from "react";
 import type {
   ActionFunctionArgs,
@@ -7,6 +8,8 @@ import type {
   LoaderFunctionArgs,
 } from "react-router";
 import { useFetcher } from "react-router";
+import { api } from "../../convex/_generated/api";
+import { useShopifySessionToken } from "../lib/session-token.client";
 import { authenticate } from "../shopify.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -141,6 +144,11 @@ export default function Index() {
   const fetcher = useFetcher<typeof action>();
 
   const shopify = useAppBridge();
+  const sessionToken = useShopifySessionToken();
+  const shopData = useQuery(
+    api.shops.get,
+    sessionToken ? { sessionToken } : "skip",
+  );
   const isLoading =
     ["loading", "submitting"].includes(fetcher.state) &&
     fetcher.formMethod === "POST";
@@ -334,6 +342,24 @@ export default function Index() {
             </s-link>
           </s-list-item>
         </s-unordered-list>
+      </s-section>
+
+      <s-section heading="Convex shop data">
+        <s-paragraph>
+          {shopData === undefined ? (
+            <s-text>Loading...</s-text>
+          ) : shopData === null ? (
+            <s-text>
+              No shop record yet — install triggers afterAuth hook.
+            </s-text>
+          ) : (
+            <s-text>
+              Shop: {shopData.shop} | Installed:{" "}
+              {new Date(shopData.installedAt).toLocaleDateString()}
+              {shopData.scope ? ` | Scopes: ${shopData.scope}` : ""}
+            </s-text>
+          )}
+        </s-paragraph>
       </s-section>
     </s-page>
   );
