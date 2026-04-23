@@ -1,7 +1,7 @@
 import { useAppBridge } from "@shopify/app-bridge-react";
 import { boundary } from "@shopify/shopify-app-react-router/server";
-import { useQuery } from "convex/react";
-import { useEffect } from "react";
+import { useAction } from "convex/react";
+import { useEffect, useState } from "react";
 import type {
   ActionFunctionArgs,
   HeadersFunction,
@@ -145,10 +145,17 @@ export default function Index() {
 
   const shopify = useAppBridge();
   const sessionToken = useShopifySessionToken();
-  const shopData = useQuery(
-    api.shops.get,
-    sessionToken ? { sessionToken } : "skip",
-  );
+  // useAction doesn't support "skip" — gate with state
+  const [shopData, setShopData] = useState<
+    null | undefined | { shop: string; installedAt: number; scope?: string }
+  >(undefined);
+  const getShop = useAction(api.shops.get);
+  useEffect(() => {
+    if (!sessionToken) return;
+    getShop({ sessionToken })
+      .then((data) => setShopData(data ?? null))
+      .catch(() => setShopData(null));
+  }, [sessionToken, getShop]);
   const isLoading =
     ["loading", "submitting"].includes(fetcher.state) &&
     fetcher.formMethod === "POST";

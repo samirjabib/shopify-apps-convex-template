@@ -11,7 +11,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const current = payload.current as string[];
   if (session) {
     try {
-      // @ts-expect-error
+      // @ts-expect-error ConvexHttpClient types don't accept internal FunctionReferences
       await convex.mutation(internal.sessions.updateScopeInternal, {
         sessionId: session.id,
         scope: current.toString(),

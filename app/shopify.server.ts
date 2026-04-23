@@ -25,14 +25,13 @@ const shopify = shopifyApp({
     : {}),
   hooks: {
     afterAuth: async ({ session }) => {
-      await convex.mutation(
-        // @ts-expect-error ConvexHttpClient types don't accept internal FunctionReferences
-        internal.shops.upsertInternal,
-        {
-          shop: session.shop,
-          scope: session.scope,
-        },
-      );
+      convex
+        .mutation(
+          // @ts-expect-error ConvexHttpClient types don't accept internal FunctionReferences
+          internal.shops.upsertInternal,
+          { shop: session.shop, scope: session.scope },
+        )
+        .catch((err) => console.error("afterAuth upsertInternal failed", err));
     },
   },
 });
