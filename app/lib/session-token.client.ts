@@ -1,6 +1,7 @@
 // app/lib/session-token.client.ts
-import { useEffect, useState } from "react";
+
 import { useAppBridge } from "@shopify/app-bridge-react";
+import { useEffect, useState } from "react";
 
 export function useShopifySessionToken(): string | null {
   const app = useAppBridge();

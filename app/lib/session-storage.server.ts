@@ -76,8 +76,7 @@ function serialize(s: Session) {
     firstName: s.onlineAccessInfo?.associated_user?.first_name ?? undefined,
     lastName: s.onlineAccessInfo?.associated_user?.last_name ?? undefined,
     email: s.onlineAccessInfo?.associated_user?.email ?? undefined,
-    accountOwner:
-      s.onlineAccessInfo?.associated_user?.account_owner ?? false,
+    accountOwner: s.onlineAccessInfo?.associated_user?.account_owner ?? false,
     locale: s.onlineAccessInfo?.associated_user?.locale ?? undefined,
     collaborator:
       s.onlineAccessInfo?.associated_user?.collaborator ?? undefined,
@@ -86,7 +85,7 @@ function serialize(s: Session) {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: Convex row type not importable here
 function deserialize(row: any): Session {
   const s = new Session({
     id: row.sessionId,

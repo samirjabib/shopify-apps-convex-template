@@ -1,8 +1,8 @@
 // app/routes/webhooks.app.uninstalled.tsx
 import type { ActionFunctionArgs } from "react-router";
-import { authenticate } from "../shopify.server";
-import convex from "../convex.server";
 import { internal } from "../../convex/_generated/api";
+import convex from "../convex.server";
+import { authenticate } from "../shopify.server";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const { shop, session, topic } = await authenticate.webhook(request);

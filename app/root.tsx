@@ -1,6 +1,7 @@
 // app/root.tsx
-import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+
 import { ConvexProvider } from "convex/react";
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 import { convexClient } from "./convex.client";
 
 export default function App() {
