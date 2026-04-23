@@ -19,6 +19,7 @@
     "convex": "convex",
     "convex:dev": "convex dev",
     "convex:deploy": "convex deploy",
+    "convex:key": "node scripts/convex-key.js",
     "graphql-codegen": "graphql-codegen",
     "vite": "vite",
     "typecheck": "react-router typegen && tsc --noEmit"

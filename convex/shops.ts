@@ -41,3 +41,16 @@ export const upsertInternal = internalMutation({
     }
   },
 });
+
+export const markUninstalledInternal = internalMutation({
+  args: { shop: v.string() },
+  handler: async (ctx, { shop }) => {
+    const existing = await ctx.db
+      .query("shops")
+      .withIndex("by_shop", (q) => q.eq("shop", shop))
+      .unique();
+    if (existing) {
+      await ctx.db.patch(existing._id, { uninstalledAt: Date.now() });
+    }
+  },
+});
