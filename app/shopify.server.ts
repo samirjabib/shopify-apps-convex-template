@@ -32,10 +32,18 @@ const shopify = shopifyApp({
     : {}),
   hooks: {
     afterAuth: async ({ session }) => {
-      runMutation(internal.shops.upsertInternal, {
-        shop: session.shop,
-        scope: session.scope,
-      }).catch((err) => console.error("afterAuth upsertInternal failed", err));
+      try {
+        await runMutation(internal.shops.upsertInternal, {
+          shop: session.shop,
+          scope: session.scope,
+        });
+      } catch (err) {
+        // Surface clearly: the shop record is required for downstream features
+        // (Convex queries by shop, billing, analytics). Awaiting + logging
+        // ensures install failures are visible instead of silently completing.
+        console.error("afterAuth upsertInternal failed", err);
+        throw err;
+      }
     },
   },
 });

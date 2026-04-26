@@ -14,12 +14,17 @@ Opinionated boilerplate for embedded Shopify admin apps. RR7 server-side renderi
 
 ## Setup
 
+> **Required first run:** `npm run convex:dev -- --once` MUST run before
+> `npm run dev`. The RR7 server boots `app/convex.server.ts` at module load
+> and throws if `CONVEX_DEPLOY_KEY` is missing. The first Convex run
+> generates the local backend admin key and writes it into `.env`.
+
 1. `nvm use` (reads `.nvmrc`)
 2. `npm install`
 3. `npm run convex:dev -- --once` — initializes the local Convex deployment and writes local Convex connection values into `.env`
 4. Create `.env` from `.env.example`, fill:
    - `SHOPIFY_API_KEY`, `SHOPIFY_API_SECRET`, `SHOPIFY_APP_URL`, `SCOPES`
-   - `CONVEX_URL` (same as `.env.local`), `VITE_CONVEX_URL` (same), `CONVEX_DEPLOY_KEY`
+   - `CONVEX_URL`, `VITE_CONVEX_URL`, `CONVEX_DEPLOY_KEY` are auto-populated by step 3
 5. `npm run convex:env:sync` — copies `SHOPIFY_API_KEY`, `SHOPIFY_API_SECRET`, and optional `SHOP_CUSTOM_DOMAIN` from `.env` into the local Convex deployment
 6. Two terminals: `npm run dev` + `npm run convex:dev`
 

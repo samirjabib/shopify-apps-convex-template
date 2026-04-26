@@ -14,7 +14,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     new URL(request.url).searchParams.get("locale") ??
       (session as { locale?: string }).locale,
   );
-  // eslint-disable-next-line no-undef
   return { apiKey: process.env.SHOPIFY_API_KEY || "", locale };
 };
 

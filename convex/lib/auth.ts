@@ -64,11 +64,14 @@ export async function requireShopifyAuth(
     new TextDecoder().decode(base64UrlDecode(payloadB64)),
   );
   const now = Math.floor(Date.now() / 1000);
-  if (typeof payload.exp !== "number" || payload.exp < now) {
+  // ±30s clock skew tolerance — Shopify session tokens are short-lived, but
+  // small clock drift between server and Shopify shouldn't reject valid tokens.
+  const SKEW_S = 30;
+  if (typeof payload.exp !== "number" || payload.exp + SKEW_S < now) {
     throw new ConvexError("Token expired");
   }
   if (payload.nbf !== undefined) {
-    if (typeof payload.nbf !== "number" || payload.nbf > now) {
+    if (typeof payload.nbf !== "number" || payload.nbf - SKEW_S > now) {
       throw new ConvexError("Token not yet valid");
     }
   }

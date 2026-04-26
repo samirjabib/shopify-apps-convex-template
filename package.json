@@ -1,5 +1,5 @@
 {
-  "name": "app-test-juan",
+  "name": "shopify-app-template",
   "private": true,
   "scripts": {
     "build": "react-router build",
