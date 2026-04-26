@@ -1,22 +1,18 @@
 #!/usr/bin/env node
+import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { spawnSync } from "node:child_process";
 
 const projectRoot = process.cwd();
 const envPath = join(projectRoot, ".env");
 const envFilePath = join(projectRoot, ".env.local");
 const convexBin = process.platform === "win32" ? "npx.cmd" : "npx";
 
-if (!existsSync(envPath)) {
-  console.error("Missing .env file.");
-  console.error("Create .env from .env.example first.");
-  process.exit(1);
-}
-
 if (!existsSync(envFilePath)) {
   console.error("Missing .env.local file.");
-  console.error("Run `npm run convex:dev -- --once` first to initialize the local Convex deployment.");
+  console.error(
+    "Run `npm run convex:dev -- --once` first to initialize the local Convex deployment.",
+  );
   process.exit(1);
 }
 
@@ -55,15 +51,27 @@ function setConvexEnvVar(key, value) {
   }
 }
 
-const env = parseEnvFile(readFileSync(envPath, "utf8"));
+// Read .env when present, but always fall back to process.env. Shopify CLI
+// (`shopify app dev`) injects SHOPIFY_API_KEY/SECRET at runtime, so a missing
+// or empty .env is fine when invoked from a CLI sub-step.
+const fileEnv = existsSync(envPath)
+  ? parseEnvFile(readFileSync(envPath, "utf8"))
+  : {};
+const env = new Proxy(
+  {},
+  { get: (_, key) => fileEnv[key] || process.env[key] || "" },
+);
+
 const requiredKeys = ["SHOPIFY_API_KEY", "SHOPIFY_API_SECRET"];
 const missingKeys = requiredKeys.filter((key) => !env[key]);
 
 if (missingKeys.length > 0) {
   console.error(
-    `Missing required Shopify variables in .env: ${missingKeys.join(", ")}`,
+    `Missing required Shopify variables: ${missingKeys.join(", ")}`,
   );
-  console.error("Populate them in .env, then rerun `npm run convex:env:sync`.");
+  console.error(
+    "Populate them in .env (or run `shopify app env pull`), then rerun `npm run convex:env:sync`.",
+  );
   process.exit(1);
 }
 

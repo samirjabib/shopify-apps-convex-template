@@ -2,20 +2,28 @@
 // Post-clone bootstrap. Run once after `shopify app init --template ...`
 // or `git clone` to:
 //   1. Copy .env.example → .env (if missing)
-//   2. Create local Convex backend (idempotent)
-//   3. Boot Convex once to populate .env with CONVEX_* keys
-//   4. Sync Shopify auth vars from .env into the Convex runtime
+//   2. Link Shopify app + pull SHOPIFY_API_KEY/SECRET via Shopify CLI
+//   3. Create local Convex backend (idempotent)
+//   4. Boot Convex once to populate .env with CONVEX_* keys
+//   5. Sync Shopify auth vars into the Convex runtime
 import { spawnSync } from "node:child_process";
-import { copyFileSync, existsSync } from "node:fs";
+import { copyFileSync, existsSync, readFileSync } from "node:fs";
 
 function step(label, fn) {
   console.log(`\n▶ ${label}`);
-  fn();
+  return fn();
 }
 
 function run(cmd, args, opts = {}) {
   const r = spawnSync(cmd, args, { stdio: "inherit", ...opts });
   return r.status ?? 0;
+}
+
+function tomlIsLinked() {
+  if (!existsSync("shopify.app.toml")) return false;
+  const toml = readFileSync("shopify.app.toml", "utf8");
+  const match = toml.match(/^\s*client_id\s*=\s*"([^"]*)"/m);
+  return Boolean(match && match[1]);
 }
 
 step("Bootstrap .env", () => {
@@ -27,6 +35,28 @@ step("Bootstrap .env", () => {
   }
 });
 
+step("Link Shopify app", () => {
+  if (tomlIsLinked()) {
+    console.log("  shopify.app.toml already has client_id — skipped");
+    return;
+  }
+  console.log("  Running `shopify app config link` (interactive)...");
+  run("npx", ["shopify", "app", "config", "link"]);
+});
+
+step(
+  "Pull Shopify env vars (SHOPIFY_API_KEY, SHOPIFY_API_SECRET, SCOPES)",
+  () => {
+    if (!tomlIsLinked()) {
+      console.log(
+        "  Skipped — app not linked. Run `npx shopify app env pull` later.",
+      );
+      return;
+    }
+    run("npx", ["shopify", "app", "env", "pull"]);
+  },
+);
+
 step("Create local Convex backend", () => {
   // Idempotent: ignore exit code (errors when backend already exists)
   run("npx", ["convex", "deployment", "create", "local", "--select"]);
@@ -37,14 +67,11 @@ step("Boot Convex once (fills CONVEX_* vars in .env)", () => {
 });
 
 step("Sync Shopify auth vars into Convex", () => {
-  if (!existsSync(".env")) return;
-  // Best-effort — works once user has filled SHOPIFY_API_KEY/SECRET in .env.
+  // Reads .env *and* falls back to process.env, so works even if pull was skipped.
   run("npm", ["run", "convex:env:sync"]);
 });
 
 console.log("\n✔ Setup complete.\n");
 console.log("Next steps:");
-console.log("  1. Edit .env — fill SHOPIFY_API_KEY, SHOPIFY_API_SECRET (Partner Dashboard)");
-console.log("  2. Run `npm run convex:env:sync` again after editing .env");
-console.log("  3. Two terminals: `npm run dev` + `npm run convex:dev`");
-console.log("  4. First time? `npm run dev -- --reset` to link to a Shopify app");
+console.log("  Two terminals: `npm run dev` + `npm run convex:dev`");
+console.log("  Re-link or switch apps later: `npm run dev -- --reset`");
