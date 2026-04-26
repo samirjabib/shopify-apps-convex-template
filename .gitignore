@@ -30,3 +30,6 @@ database.sqlite
 
 # Convex local backend state (contains adminKey — never commit)
 .convex/local/
+
+# Codex AGENTS.md (duplicate of CLAUDE.md)
+AGENTS.md
