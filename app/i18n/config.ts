@@ -5,7 +5,6 @@ import de from "./locales/de.json";
 import en from "./locales/en.json";
 import es from "./locales/es.json";
 import fr from "./locales/fr.json";
-import ja from "./locales/ja.json";
 import ptBR from "./locales/pt-BR.json";
 import zhCN from "./locales/zh-CN.json";
 
@@ -15,7 +14,6 @@ export const SUPPORTED_LOCALES = [
   "de",
   "fr",
   "pt-BR",
-  "ja",
   "zh-CN",
 ] as const;
 
@@ -53,7 +51,6 @@ export function createI18n(locale: SupportedLocale = "en") {
       de: { app: de },
       fr: { app: fr },
       "pt-BR": { app: ptBR },
-      ja: { app: ja },
       "zh-CN": { app: zhCN },
     },
     interpolation: { escapeValue: false },
