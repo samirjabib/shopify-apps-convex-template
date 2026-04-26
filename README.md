@@ -15,57 +15,65 @@ Opinionated boilerplate for embedded Shopify admin apps. RR7 SSR, App Bridge ses
 - **Deps:** Renovate (grouped PRs, patch auto-merge, Convex post-upgrade codegen)
 - **CI:** GitHub Actions (`typecheck` + `biome ci`)
 
-## Get the template
+## Quick start
+
+**Recommended — Shopify CLI:**
 
 ```bash
-git clone https://github.com/samirjabib/shopify-apps-convex-template.git my-shopify-app
-cd my-shopify-app
-nvm use            # respects .nvmrc
-npm install
+shopify app init --template https://github.com/samirjabib/shopify-apps-convex-template
 ```
 
-## First run — link your Shopify app
+Shopify CLI clones the template, runs `npm install`, prompts you to:
 
-`shopify.app.toml` ships with empty `client_id` so you must link it on first run:
+1. Sign in to your Shopify Partner account
+2. **Connect to existing app** (use one already in Partner Dashboard) **or** **Create a new app** (CLI provisions it)
+3. Pick a **dev store** for installation
+
+When done, `shopify.app.toml` has `client_id` + URLs filled in.
+
+**Alternatives:**
+
+- **GitHub Template** → click [Use this template](https://github.com/samirjabib/shopify-apps-convex-template/generate) on the repo
+- **Manual clone:**
+  ```bash
+  git clone https://github.com/samirjabib/shopify-apps-convex-template.git my-app
+  cd my-app && nvm use && npm install
+  npm run dev -- --reset    # link a Shopify app interactively
+  ```
+
+> Need to re-link or switch apps later? `npm run dev -- --reset`.
+
+## First run — bootstrap
+
+After Shopify CLI / GitHub Template / clone is in place, run:
 
 ```bash
-npm run dev -- --reset
+npm run setup
 ```
 
-Shopify CLI prompts you to:
+That single command:
 
-1. **Sign in to your Shopify Partner account**
-2. Choose **Connect to existing app** (use a Partner Dashboard app you already created) **or** **Create a new app** (CLI provisions one for you)
-3. Pick a **dev store** to install onto
+1. Copies `.env.example` → `.env` (if missing)
+2. Registers a **local Convex backend** (`npx convex deployment create local --select`)
+3. Boots Convex once to populate `CONVEX_URL`, `VITE_CONVEX_URL`, `CONVEX_DEPLOY_KEY` in `.env`
+4. Best-effort syncs Shopify auth vars from `.env` into the Convex runtime
 
-After linking, `shopify.app.toml` is populated with `client_id`, `application_url`, and `redirect_urls`. The CLI prints the embedded app preview URL.
+Then fill the Shopify side of `.env` from your Partner Dashboard:
 
-> Need to re-link or switch apps? Run `npm run dev -- --reset` again.
-
-## First run — initialize Convex
-
-The RR7 server boots `app/convex.server.ts` at module load and throws if `CONVEX_DEPLOY_KEY` is missing. Initialize a local Convex backend before `npm run dev`:
-
-```bash
-npx convex deployment create local --select   # one-time, registers local backend
-npm run convex:dev -- --once                  # boots local backend, fills .env
+```
+SHOPIFY_API_KEY=<from Partner Dashboard>
+SHOPIFY_API_SECRET=<from Partner Dashboard>
+SHOPIFY_APP_URL=<tunnel URL, auto-set on `npm run dev`>
+SCOPES=write_products
 ```
 
-After this, `.env` has `CONVEX_URL`, `VITE_CONVEX_URL`, and `CONVEX_DEPLOY_KEY` auto-populated by `scripts/convex-key.js`.
-
-Copy Shopify-side env vars from `.env.example` to `.env` and fill them:
-
-```bash
-cp .env.example .env
-# Edit .env: SHOPIFY_API_KEY, SHOPIFY_API_SECRET come from Partner Dashboard
-# (or `npm run dev -- --reset` writes them via `shopify app env pull`)
-```
-
-Sync Shopify credentials into the Convex runtime so the JWT validator finds the secret:
+Re-sync Shopify creds into Convex once `.env` is filled:
 
 ```bash
 npm run convex:env:sync
 ```
+
+> Why `setup` matters: `app/convex.server.ts` throws at module load if `CONVEX_DEPLOY_KEY` is missing, and the JWT validator inside Convex needs `SHOPIFY_API_SECRET`. The script handles both prerequisites in one shot.
 
 Two-terminal dev workflow:
 
@@ -246,6 +254,7 @@ Missing keys fall back to `en` automatically.
 
 | Command | Purpose |
 |---|---|
+| `npm run setup` | One-shot post-clone bootstrap (Convex local + .env scaffold) |
 | `npm run dev` | Shopify CLI dev with embedded app tunnel |
 | `npm run dev -- --reset` | Re-link to a Shopify app (existing or new) |
 | `npm run convex:dev` | Convex dev server + codegen watcher + local `.env` sync |

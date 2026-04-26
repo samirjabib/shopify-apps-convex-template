@@ -23,6 +23,7 @@
     "convex:key": "node scripts/convex-key.js",
     "graphql-codegen": "graphql-codegen",
     "vite": "vite",
+    "setup": "node scripts/setup.js",
     "typecheck": "react-router typegen && tsc --noEmit",
     "test": "vitest",
     "test:run": "vitest run",
