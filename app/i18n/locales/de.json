@@ -1,0 +1,51 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "examples": "Beispiele",
+    "additional": "Weitere Seite"
+  },
+  "index": {
+    "pageHeading": "Shopify-App-Vorlage",
+    "congrats": {
+      "body": "Diese eingebettete App-Vorlage verwendet App-Bridge-Schnittstellenbeispiele wie eine zusätzliche Seite in der App-Navigation sowie eine Admin-GraphQL-Mutations-Demo als Ausgangspunkt für die App-Entwicklung."
+    },
+    "specs": {
+      "heading": "App-Vorlage Spezifikationen",
+      "framework": "Framework:",
+      "interface": "Oberfläche:",
+      "api": "API:",
+      "customData": "Benutzerdaten:",
+      "database": "Datenbank:"
+    }
+  },
+  "examples": {
+    "pageHeading": "Beispiele",
+    "generateProduct": "Produkt generieren",
+    "editProduct": "Produkt bearbeiten",
+    "productCreated": "Produkt erstellt",
+    "adminApi": {
+      "heading": "Admin GraphQL API",
+      "body": "Eine Beispiel-Mutationskette (productCreate → productVariantsBulkUpdate → metaobjectUpsert) gegen den Shop des Händlers ausführen. Nützlich als Ausgangspunkt für Admin-API-Funktionen."
+    },
+    "convex": {
+      "heading": "Convex (Browser → Convex-Action)",
+      "body": "Direkter Browser-zu-Convex-Aufruf, abgesichert durch das Shopify-Session-Token. Die Convex-Action verifiziert das JWT und gibt den bei der Installation gespeicherten Shop-Datensatz zurück.",
+      "loading": "Laden...",
+      "noRecord": "Noch kein Shop-Datensatz — die Installation aktiviert den afterAuth-Hook.",
+      "installed": "Installiert:",
+      "scopes": "Berechtigungen:"
+    }
+  },
+  "additional": {
+    "pageHeading": "Weitere Seite",
+    "multiplePages": {
+      "heading": "Mehrere Seiten",
+      "body": "Die App-Vorlage enthält eine zusätzliche Seite, die zeigt, wie mehrere Seiten in der App-Navigation mit App Bridge erstellt werden.",
+      "body2": "Um eine eigene Seite in der Navigation anzuzeigen, füge eine Seite in app/routes und einen Link in der <ui-nav-menu>-Komponente in app/routes/app.jsx hinzu."
+    },
+    "resources": {
+      "heading": "Ressourcen",
+      "navBestPractices": "Best Practices für App-Navigation"
+    }
+  }
+}

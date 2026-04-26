@@ -29,12 +29,12 @@ describe("resolveLocale", () => {
     expect(resolveLocale("en-US")).toBe("en");
     expect(resolveLocale("fr-CA")).toBe("fr");
     expect(resolveLocale("es-MX")).toBe("es");
+    expect(resolveLocale("de-AT")).toBe("de");
   });
 
   it("falls back to en for unsupported", () => {
     expect(resolveLocale("xx")).toBe("en");
     expect(resolveLocale("klingon")).toBe("en");
-    expect(resolveLocale("de")).toBe("en");
     expect(resolveLocale("ja")).toBe("en");
     expect(resolveLocale("zh-CN")).toBe("en");
   });

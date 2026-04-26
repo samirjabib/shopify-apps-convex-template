@@ -5,12 +5,13 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
+import de from "./locales/de.json";
 import en from "./locales/en.json";
 import es from "./locales/es.json";
 import fr from "./locales/fr.json";
 import ptBR from "./locales/pt-BR.json";
 
-export const SUPPORTED_LOCALES = ["en", "es", "fr", "pt-BR"] as const;
+export const SUPPORTED_LOCALES = ["en", "es", "de", "fr", "pt-BR"] as const;
 
 export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 
@@ -42,6 +43,7 @@ export function createI18n(locale: SupportedLocale = "en") {
     resources: {
       en: { app: en },
       es: { app: es },
+      de: { app: de },
       fr: { app: fr },
       "pt-BR": { app: ptBR },
     },
