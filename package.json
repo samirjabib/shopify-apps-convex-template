@@ -21,6 +21,7 @@
     "convex:deploy": "convex deploy",
     "convex:env:sync": "node scripts/convex-env-sync.js",
     "convex:key": "node scripts/convex-key.js",
+    "check:webhooks": "node scripts/check-webhooks.js",
     "graphql-codegen": "graphql-codegen",
     "vite": "vite",
     "setup": "node scripts/setup.js",
