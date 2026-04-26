@@ -1,7 +1,6 @@
 {
   "nav": {
     "home": "Startseite",
-    "examples": "Beispiele",
     "additional": "Weitere Seite"
   },
   "index": {
@@ -16,24 +15,6 @@
       "api": "API:",
       "customData": "Benutzerdaten:",
       "database": "Datenbank:"
-    }
-  },
-  "examples": {
-    "pageHeading": "Beispiele",
-    "generateProduct": "Produkt generieren",
-    "editProduct": "Produkt bearbeiten",
-    "productCreated": "Produkt erstellt",
-    "adminApi": {
-      "heading": "Admin GraphQL API",
-      "body": "Eine Beispiel-Mutationskette (productCreate → productVariantsBulkUpdate → metaobjectUpsert) gegen den Shop des Händlers ausführen. Nützlich als Ausgangspunkt für Admin-API-Funktionen."
-    },
-    "convex": {
-      "heading": "Convex (Browser → Convex-Action)",
-      "body": "Direkter Browser-zu-Convex-Aufruf, abgesichert durch das Shopify-Session-Token. Die Convex-Action verifiziert das JWT und gibt den bei der Installation gespeicherten Shop-Datensatz zurück.",
-      "loading": "Laden...",
-      "noRecord": "Noch kein Shop-Datensatz — die Installation aktiviert den afterAuth-Hook.",
-      "installed": "Installiert:",
-      "scopes": "Berechtigungen:"
     }
   },
   "additional": {

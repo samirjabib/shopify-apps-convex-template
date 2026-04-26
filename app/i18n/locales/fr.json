@@ -1,8 +1,7 @@
 {
   "nav": {
     "home": "Accueil",
-    "additional": "Page supplémentaire",
-    "examples": "Exemples"
+    "additional": "Page supplémentaire"
   },
   "index": {
     "pageHeading": "Modèle d'application Shopify",
