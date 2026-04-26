@@ -5,8 +5,8 @@ import {
   shopifyApp,
 } from "@shopify/shopify-app-react-router/server";
 import { internal } from "../convex/_generated/api";
-import { identifyShop as billingIdentify } from "./lib/billing";
 import { runMutation } from "./convex.server";
+import { identifyShop as billingIdentify } from "./lib/billing";
 import { ConvexSessionStorage } from "./lib/session-storage.server";
 
 const apiKey = process.env.SHOPIFY_API_KEY;

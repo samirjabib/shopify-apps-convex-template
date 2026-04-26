@@ -16,9 +16,7 @@ export default function AdditionalPage() {
           </s-link>
           .
         </s-paragraph>
-        <s-paragraph>
-          {t("additional.multiplePages.body2")}
-        </s-paragraph>
+        <s-paragraph>{t("additional.multiplePages.body2")}</s-paragraph>
       </s-section>
       <s-section slot="aside" heading={t("additional.resources.heading")}>
         <s-unordered-list>

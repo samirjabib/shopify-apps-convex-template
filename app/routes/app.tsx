@@ -1,9 +1,9 @@
 import { AppProvider } from "@shopify/shopify-app-react-router/react";
 import { boundary } from "@shopify/shopify-app-react-router/server";
 import { useMemo } from "react";
+import { I18nextProvider } from "react-i18next";
 import type { HeadersFunction, LoaderFunctionArgs } from "react-router";
 import { Outlet, useLoaderData, useRouteError } from "react-router";
-import { I18nextProvider } from "react-i18next";
 
 import { createI18n, resolveLocale } from "../i18n";
 import { authenticate } from "../shopify.server";

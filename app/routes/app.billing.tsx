@@ -3,9 +3,9 @@
 // and mounts <MantleProvider> so children can call useMantle() to fetch
 // plans, subscribe, send usage events, etc.
 import { MantleProvider, useMantle } from "@heymantle/react";
+import { useTranslation } from "react-i18next";
 import type { LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
-import { useTranslation } from "react-i18next";
 import { internal } from "../../convex/_generated/api";
 import { runQuery } from "../convex.server";
 import { authenticate } from "../shopify.server";

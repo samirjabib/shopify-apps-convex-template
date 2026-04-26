@@ -1,10 +1,16 @@
 #!/usr/bin/env node
+import { spawn } from "node:child_process";
 import { existsSync, statSync } from "node:fs";
 import { join } from "node:path";
-import { spawn } from "node:child_process";
 
 const projectRoot = process.cwd();
-const configPath = join(projectRoot, ".convex", "local", "default", "config.json");
+const configPath = join(
+  projectRoot,
+  ".convex",
+  "local",
+  "default",
+  "config.json",
+);
 const convexBin = process.platform === "win32" ? "npx.cmd" : "npx";
 
 let lastConfigMtimeMs = 0;
