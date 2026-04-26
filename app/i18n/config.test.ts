@@ -20,10 +20,9 @@ describe("resolveLocale", () => {
     expect(resolveLocale("PT-br")).toBe("pt-BR");
   });
 
-  it("aliases pt → pt-BR, zh → zh-CN, no → nb", () => {
+  it("aliases pt → pt-BR, zh → zh-CN", () => {
     expect(resolveLocale("pt")).toBe("pt-BR");
     expect(resolveLocale("zh")).toBe("zh-CN");
-    expect(resolveLocale("no")).toBe("nb");
   });
 
   it("matches by language prefix", () => {
@@ -32,8 +31,11 @@ describe("resolveLocale", () => {
     expect(resolveLocale("fr-CA")).toBe("fr");
   });
 
-  it("falls back to en for unsupported", () => {
+  it("falls back to en for unsupported (e.g. dropped locales)", () => {
     expect(resolveLocale("xx")).toBe("en");
     expect(resolveLocale("klingon")).toBe("en");
+    // Languages we removed from the principal set fall back via prefix or to en
+    expect(resolveLocale("ko")).toBe("en");
+    expect(resolveLocale("nl")).toBe("en");
   });
 });
