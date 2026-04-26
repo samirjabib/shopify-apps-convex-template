@@ -1,7 +1,8 @@
 {
   "nav": {
     "home": "Accueil",
-    "additional": "Page supplémentaire"
+    "additional": "Page supplémentaire",
+    "billing": "Facturation"
   },
   "index": {
     "pageHeading": "Modèle d'application Shopify",
@@ -27,6 +28,17 @@
     "resources": {
       "heading": "Ressources",
       "navBestPractices": "Bonnes pratiques de navigation"
+    }
+  },
+  "billing": {
+    "heading": "Forfaits et facturation",
+    "disabled": {
+      "heading": "Facturation désactivée",
+      "body": "Définissez BILLING_PROVIDER=mantle et ajoutez MANTLE_APP_ID + MANTLE_API_KEY à l'env pour activer les forfaits."
+    },
+    "notLinked": {
+      "heading": "Mantle non lié",
+      "body": "Réinstallez l'app ou redéclenchez afterAuth pour enregistrer le apiToken Mantle."
     }
   }
 }

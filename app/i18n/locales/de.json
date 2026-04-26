@@ -1,7 +1,8 @@
 {
   "nav": {
     "home": "Startseite",
-    "additional": "Weitere Seite"
+    "additional": "Weitere Seite",
+    "billing": "Abrechnung"
   },
   "index": {
     "pageHeading": "Shopify-App-Vorlage",
@@ -27,6 +28,17 @@
     "resources": {
       "heading": "Ressourcen",
       "navBestPractices": "Best Practices für App-Navigation"
+    }
+  },
+  "billing": {
+    "heading": "Pläne & Abrechnung",
+    "disabled": {
+      "heading": "Abrechnung deaktiviert",
+      "body": "Setze BILLING_PROVIDER=mantle und füge MANTLE_APP_ID + MANTLE_API_KEY zur env hinzu, um Pläne zu aktivieren."
+    },
+    "notLinked": {
+      "heading": "Mantle noch nicht verknüpft",
+      "body": "Installiere die App neu oder triggere afterAuth, damit das Mantle-apiToken registriert wird."
     }
   }
 }

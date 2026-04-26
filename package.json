@@ -33,6 +33,8 @@
     "node": ">=20.19 <22 || >=22.12"
   },
   "dependencies": {
+    "@heymantle/client": "^1.1.75",
+    "@heymantle/react": "^0.0.73",
     "@react-router/dev": "^7.12.0",
     "@react-router/fs-routes": "^7.12.0",
     "@react-router/node": "^7.12.0",

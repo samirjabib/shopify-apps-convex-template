@@ -32,6 +32,9 @@ export default defineSchema({
     scope: v.optional(v.string()),
     ownerEmail: v.optional(v.string()),
     uninstalledAt: v.optional(v.number()),
+    // Billing (Mantle adapter — only populated when BILLING_PROVIDER=mantle)
+    mantleApiToken: v.optional(v.string()),
+    plan: v.optional(v.string()),
   }).index("by_shop", ["shop"]),
 
   rateLimits: defineTable({

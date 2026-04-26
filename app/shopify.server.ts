@@ -5,6 +5,7 @@ import {
   shopifyApp,
 } from "@shopify/shopify-app-react-router/server";
 import { internal } from "../convex/_generated/api";
+import { identifyShop as billingIdentify } from "./lib/billing";
 import { runMutation } from "./convex.server";
 import { ConvexSessionStorage } from "./lib/session-storage.server";
 
@@ -43,6 +44,25 @@ const shopify = shopifyApp({
         // ensures install failures are visible instead of silently completing.
         console.error("afterAuth upsertInternal failed", err);
         throw err;
+      }
+
+      // Billing — opt-in via BILLING_PROVIDER env. Returns null when disabled.
+      try {
+        const billing = await billingIdentify({
+          shop: session.shop,
+          shopId: session.shop,
+          accessToken: session.accessToken ?? "",
+          email: session.onlineAccessInfo?.associated_user?.email,
+        });
+        if (billing) {
+          await runMutation(internal.shops.setBillingInternal, {
+            shop: session.shop,
+            mantleApiToken: billing.apiToken,
+          });
+        }
+      } catch (err) {
+        // Don't block install on billing setup failure — log and continue.
+        console.error("afterAuth billingIdentify failed", err);
       }
     },
   },

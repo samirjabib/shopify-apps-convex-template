@@ -26,6 +26,7 @@ export default function App() {
       <AppProvider embedded apiKey={apiKey}>
         <s-app-nav>
           <s-link href="/app">{i18n.t("nav.home")}</s-link>
+          <s-link href="/app/billing">{i18n.t("nav.billing")}</s-link>
           <s-link href="/app/additional">{i18n.t("nav.additional")}</s-link>
         </s-app-nav>
         <Outlet />

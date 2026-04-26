@@ -12,6 +12,8 @@ const shopDocValidator = v.object({
   scope: v.optional(v.string()),
   ownerEmail: v.optional(v.string()),
   uninstalledAt: v.optional(v.number()),
+  mantleApiToken: v.optional(v.string()),
+  plan: v.optional(v.string()),
 });
 
 export const get = action({
@@ -91,6 +93,30 @@ export const purgeByShopInternal = internalMutation({
       .withIndex("by_shop", (q) => q.eq("shop", shop))
       .unique();
     if (existing) await ctx.db.delete(existing._id);
+    return null;
+  },
+});
+
+// Billing — wired by the Mantle adapter. Stores the Mantle-issued
+// customer apiToken (used to mount <MantleProvider> client-side) and
+// the current plan name (synced by the Mantle webhook handler).
+export const setBillingInternal = internalMutation({
+  args: {
+    shop: v.string(),
+    mantleApiToken: v.optional(v.string()),
+    plan: v.optional(v.string()),
+  },
+  returns: v.null(),
+  handler: async (ctx, { shop, mantleApiToken, plan }) => {
+    const existing = await ctx.db
+      .query("shops")
+      .withIndex("by_shop", (q) => q.eq("shop", shop))
+      .unique();
+    if (!existing) return null;
+    await ctx.db.patch(existing._id, {
+      mantleApiToken: mantleApiToken ?? existing.mantleApiToken,
+      plan: plan ?? existing.plan,
+    });
     return null;
   },
 });

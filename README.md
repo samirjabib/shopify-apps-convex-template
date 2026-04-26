@@ -155,6 +155,82 @@ Three handlers are wired and registered in `shopify.app.toml`:
 
 The `data_request` and `customers/redact` handlers acknowledge by default — customize them when your app stores customer-scoped data.
 
+## Billing (opt-in)
+
+The template ships with a billing facade and a [Mantle](https://heymantle.com) adapter. Both are **off by default** (`BILLING_PROVIDER=none` in `.env`). Switch on when you're ready to monetize.
+
+### Why Mantle
+
+Native [Shopify Billing API](https://shopify.dev/docs/api/usage/billing-api) works fine for one app. Mantle adds value once you build a portfolio:
+
+- A/B price testing across plans
+- Churn / LTV / health-score analytics
+- Multi-app dashboard (single source of truth across your portfolio)
+- Plan migration tooling
+- Mantle Core is **$0/mo for apps under $5K MTR** — only pay once an app crosses the threshold
+
+If you only need a single $X/mo subscription on one app, the native Shopify Billing API is simpler and zero-deps. Swap by editing `app/lib/billing/`.
+
+### Enable Mantle
+
+1. **Sign up** at [heymantle.com](https://heymantle.com) (Core plan, free under $5K MTR).
+2. From the Mantle dashboard → Settings → Apps, install your Shopify app and copy:
+   - `MANTLE_APP_ID`
+   - `MANTLE_API_KEY`
+3. Add to your `.env`:
+   ```
+   BILLING_PROVIDER=mantle
+   MANTLE_APP_ID=<your app id>
+   MANTLE_API_KEY=<your api key>
+   ```
+4. Add the same three vars in Vercel project settings (Production + Preview).
+5. Restart `npm run dev`. On the next install, `afterAuth` calls `mantle.identify()` and stores the per-shop `apiToken` in Convex `shops.mantleApiToken`.
+6. Configure plans in the [Mantle dashboard](https://app.heymantle.com) → Plans.
+7. Visit `/app/billing` in the embedded admin to see the plan picker.
+
+### Mantle webhook
+
+Mantle posts subscription events to `/webhooks/mantle`. Handler is wired at `app/routes/webhooks.mantle.tsx`. Configure the webhook URL in your Mantle dashboard:
+```
+https://<your-app>.vercel.app/webhooks/mantle
+```
+Stub today: TODO comment marks where to add HMAC signature verification once Mantle's signature scheme is in your dashboard. Don't ship to App Store without verification.
+
+### How to test billing locally
+
+> Mantle requires HTTPS for webhooks. Use `npm run dev` (Shopify CLI provides a public tunnel) or `cloudflared tunnel`.
+
+1. **Set env vars** as above.
+2. **Reinstall the app** so `afterAuth` fires:
+   ```bash
+   # In Shopify Partner dashboard → Apps → your app → "Test on store" → uninstall, then reinstall.
+   # Or trigger via CLI:
+   npm run dev
+   # then click the install URL printed by Shopify CLI in a fresh dev store
+   ```
+3. **Verify the apiToken landed in Convex:**
+   ```bash
+   npx convex data shops --env-file .env.local | grep mantleApiToken
+   ```
+4. **Open `/app/billing`** in the embedded admin. You should see the plans defined in your Mantle dashboard. Subscribing redirects to Shopify's billing approval page.
+5. **Approve the test charge** in the Shopify confirmation screen (test stores skip real billing).
+6. **Verify Mantle webhook received** by checking server logs:
+   ```
+   Mantle webhook subscription.created for shop=... plan=Pro
+   ```
+7. **Verify plan synced to Convex:**
+   ```bash
+   npx convex data shops --env-file .env.local | grep plan
+   ```
+
+### Disable billing
+
+Set `BILLING_PROVIDER=none` (or unset). The `/app/billing` route renders a "Billing disabled" placeholder; `afterAuth` skips Mantle identify; webhook handler returns 200 without persisting.
+
+### Swap to Shopify Billing API native
+
+Edit `app/lib/billing/index.ts` and add a `shopify` branch in `identifyShop` that calls `billingApi.require()` from `@shopify/shopify-app-react-router`. The `BillingProvider` type and call sites stay the same.
+
 ## i18n
 
 `react-i18next` with 5 default locales: English, Spanish, German, French, Brazilian Portuguese. Locale resolves from the Shopify session `locale` claim or `?locale=` query param.
@@ -231,6 +307,9 @@ vercel.json                          Vercel framework + build hint
 | `CONVEX_URL` | `.env`, Vercel | Convex deployment URL (server-side) |
 | `VITE_CONVEX_URL` | `.env`, Vercel | Same URL exposed to client bundle |
 | `CONVEX_DEPLOY_KEY` | `.env`, Vercel | Admin auth for `ConvexHttpClient.setAdminAuth` |
+| `BILLING_PROVIDER` | `.env`, Vercel | `none` (default) \| `mantle` |
+| `MANTLE_APP_ID` | `.env`, Vercel | Mantle dashboard → Settings → Apps |
+| `MANTLE_API_KEY` | `.env`, Vercel | Mantle dashboard → Settings → Apps |
 
 ## Local Convex notes
 

@@ -1,7 +1,8 @@
 {
   "nav": {
     "home": "Home",
-    "additional": "Additional page"
+    "additional": "Additional page",
+    "billing": "Billing"
   },
   "index": {
     "pageHeading": "Shopify app template",
@@ -27,6 +28,17 @@
     "resources": {
       "heading": "Resources",
       "navBestPractices": "App nav best practices"
+    }
+  },
+  "billing": {
+    "heading": "Plans & billing",
+    "disabled": {
+      "heading": "Billing disabled",
+      "body": "Set BILLING_PROVIDER=mantle and add MANTLE_APP_ID + MANTLE_API_KEY to your env to enable plans."
+    },
+    "notLinked": {
+      "heading": "Mantle not linked yet",
+      "body": "Reinstall the app or trigger afterAuth so the Mantle apiToken gets registered."
     }
   }
 }

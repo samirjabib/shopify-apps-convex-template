@@ -1,7 +1,8 @@
 {
   "nav": {
     "home": "Início",
-    "additional": "Página adicional"
+    "additional": "Página adicional",
+    "billing": "Cobrança"
   },
   "index": {
     "pageHeading": "Template de app Shopify",
@@ -27,6 +28,17 @@
     "resources": {
       "heading": "Recursos",
       "navBestPractices": "Boas práticas de navegação"
+    }
+  },
+  "billing": {
+    "heading": "Planos e cobrança",
+    "disabled": {
+      "heading": "Cobrança desabilitada",
+      "body": "Defina BILLING_PROVIDER=mantle e adicione MANTLE_APP_ID + MANTLE_API_KEY ao env para habilitar planos."
+    },
+    "notLinked": {
+      "heading": "Mantle ainda não vinculado",
+      "body": "Reinstale o app ou dispare afterAuth para registrar o apiToken do Mantle."
     }
   }
 }
