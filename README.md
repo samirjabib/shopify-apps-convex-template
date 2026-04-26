@@ -66,7 +66,7 @@ git push --force origin main
 After Shopify CLI / GitHub Template / clone is in place, run:
 
 ```bash
-npm run setup
+npm run setup       # or: pnpm setup / yarn setup / bun run setup
 ```
 
 That single command:
@@ -90,10 +90,10 @@ Two-terminal dev workflow:
 
 ```bash
 # terminal 1
-npm run dev
+npm run dev          # or: pnpm dev / yarn dev / bun dev
 
 # terminal 2
-npm run convex:dev
+npm run convex:dev   # or: pnpm convex:dev
 ```
 
 ## Deploy to Vercel
