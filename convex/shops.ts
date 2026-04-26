@@ -81,3 +81,16 @@ export const markUninstalledInternal = internalMutation({
     return null;
   },
 });
+
+export const purgeByShopInternal = internalMutation({
+  args: { shop: v.string() },
+  returns: v.null(),
+  handler: async (ctx, { shop }) => {
+    const existing = await ctx.db
+      .query("shops")
+      .withIndex("by_shop", (q) => q.eq("shop", shop))
+      .unique();
+    if (existing) await ctx.db.delete(existing._id);
+    return null;
+  },
+});

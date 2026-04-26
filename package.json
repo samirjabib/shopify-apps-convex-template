@@ -23,7 +23,10 @@
     "convex:key": "node scripts/convex-key.js",
     "graphql-codegen": "graphql-codegen",
     "vite": "vite",
-    "typecheck": "react-router typegen && tsc --noEmit"
+    "typecheck": "react-router typegen && tsc --noEmit",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:ui": "vitest --ui"
   },
   "type": "module",
   "engines": {
@@ -47,14 +50,18 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.12",
+    "@edge-runtime/vm": "^5.0.0",
     "@shopify/api-codegen-preset": "^1.2.0",
     "@shopify/polaris-types": "^1.0.1",
     "@types/node": "^22.18.8",
     "@types/react": "^18.3.25",
     "@types/react-dom": "^18.3.7",
+    "@vitest/ui": "^4.1.5",
+    "convex-test": "^0.0.50",
     "graphql-config": "^5.1.1",
     "typescript": "^5.9.3",
-    "vite": "^6.3.6"
+    "vite": "^6.3.6",
+    "vitest": "^4.1.5"
   },
   "workspaces": [
     "extensions/*"
