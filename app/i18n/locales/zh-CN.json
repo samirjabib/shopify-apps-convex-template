@@ -1,7 +1,8 @@
 {
   "nav": {
     "home": "首页",
-    "additional": "附加页面"
+    "additional": "附加页面",
+    "examples": "示例"
   },
   "index": {
     "pageHeading": "Shopify 应用模板",

@@ -1,7 +1,8 @@
 {
   "nav": {
     "home": "ホーム",
-    "additional": "追加ページ"
+    "additional": "追加ページ",
+    "examples": "例"
   },
   "index": {
     "pageHeading": "Shopifyアプリテンプレート",

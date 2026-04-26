@@ -1,7 +1,8 @@
 {
   "nav": {
     "home": "Hjem",
-    "additional": "Ekstra side"
+    "additional": "Ekstra side",
+    "examples": "Eksempler"
   },
   "index": {
     "pageHeading": "Shopify-appskabelon",

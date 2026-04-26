@@ -1,6 +1,7 @@
 {
   "nav": {
     "home": "Home",
+    "examples": "Examples",
     "additional": "Additional page"
   },
   "index": {
@@ -15,6 +16,24 @@
       "api": "API:",
       "customData": "Custom data:",
       "database": "Database:"
+    }
+  },
+  "examples": {
+    "pageHeading": "Examples",
+    "generateProduct": "Generate a product",
+    "editProduct": "Edit product",
+    "productCreated": "Product created",
+    "adminApi": {
+      "heading": "Admin GraphQL API",
+      "body": "Run a sample mutation chain (productCreate → productVariantsBulkUpdate → metaobjectUpsert) against the merchant's store. Useful as a starting point for building Admin API features."
+    },
+    "convex": {
+      "heading": "Convex (browser → Convex action)",
+      "body": "Direct browser-to-Convex call gated by the Shopify session token. The Convex action verifies the JWT and returns the shop record stored at install time.",
+      "loading": "Loading...",
+      "noRecord": "No shop record yet — install triggers afterAuth hook.",
+      "installed": "Installed:",
+      "scopes": "Scopes:"
     }
   },
   "additional": {

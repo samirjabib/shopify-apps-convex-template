@@ -1,7 +1,8 @@
 {
   "nav": {
     "home": "Strona główna",
-    "additional": "Dodatkowa strona"
+    "additional": "Dodatkowa strona",
+    "examples": "Przykłady"
   },
   "index": {
     "pageHeading": "Szablon aplikacji Shopify",

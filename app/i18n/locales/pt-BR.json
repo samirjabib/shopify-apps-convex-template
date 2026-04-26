@@ -1,7 +1,8 @@
 {
   "nav": {
     "home": "Início",
-    "additional": "Página adicional"
+    "additional": "Página adicional",
+    "examples": "Exemplos"
   },
   "index": {
     "pageHeading": "Template de app Shopify",
