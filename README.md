@@ -35,6 +35,20 @@ Use `npm run convex:dev` for local development. The wrapper script:
 
 If you need to invoke the CLI directly, use `npx convex dev --env-file .env.local`.
 
+### Bootstrapping a fresh clone
+
+If you cloned the repo and `npm run convex:dev` (or RR7 dev) fails with `CONVEX_DEPLOY_KEY not set`, the local Convex deployment hasn't been registered yet — `app/convex.server.ts` throws at module load when the key is missing.
+
+Resolution:
+
+1. `npm install` — `convex/server` resolves only after deps install (otherwise `convex dev` fails to bundle `convex/convex.config.js` with `Could not resolve "convex/server"`).
+2. `npx convex deployment create local --select` — registers a local backend and writes `CONVEX_DEPLOYMENT`, `VITE_CONVEX_URL`, `VITE_CONVEX_SITE_URL` into `.env.local`.
+3. `npm run convex:dev -- --once` — boots the local backend; the wrapper's mtime watcher runs `scripts/convex-key.js`, which reads `.convex/local/default/config.json` and writes `CONVEX_DEPLOY_KEY`, `CONVEX_URL`, `VITE_CONVEX_URL` into `.env`.
+
+After step 3, `.env` has all three vars `app/convex.server.ts` requires and RR7 server boots cleanly.
+
+If you'd previously linked a cloud dev deployment (`CONVEX_DEPLOYMENT=dev:...` in `.env.local`), back it up before switching: `cp .env.local .env.local.cloud.bak`. Restoring is a single `mv` away.
+
 ### Convex env sync
 
 This template uses direct `browser -> Convex` calls for app business logic. Because Convex verifies the Shopify session token itself, the local Convex runtime also needs Shopify credentials.
