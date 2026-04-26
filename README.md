@@ -37,11 +37,18 @@ When done, `shopify.app.toml` has `client_id` + URLs filled in.
 - **Manual clone:**
   ```bash
   git clone https://github.com/samirjabib/shopify-apps-convex-template.git my-app
-  cd my-app && nvm use && npm install
-  npm run dev -- --reset    # link a Shopify app interactively
+  cd my-app && nvm use
+  npm install     # or: pnpm install / yarn / bun install
+  npm run dev -- --reset    # pnpm/yarn/bun: drop the `--`
   ```
 
-> Need to re-link or switch apps later? `npm run dev -- --reset`.
+> Need to re-link or switch apps later? `npm run dev -- --reset` (or `pnpm dev --reset`).
+
+### Package manager
+
+Both **npm** (default lockfile) and **pnpm** are first-class. Yarn and Bun should work too. `setup.js` detects the active PM via `npm_config_user_agent` and routes script invocations through it. `.npmrc` pins `shamefully-hoist=true` so the Convex CLI (which walks `node_modules` for codegen) works under pnpm without surprises.
+
+Pick one and stick with it — don't commit two lockfiles.
 
 ### Squashing template git history (optional)
 

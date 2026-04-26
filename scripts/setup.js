@@ -19,6 +19,33 @@ function run(cmd, args, opts = {}) {
   return r.status ?? 0;
 }
 
+// Detect the active package manager from npm_config_user_agent (set by every
+// modern PM). Falls back to lockfile sniffing, then to npm.
+function detectPM() {
+  const ua = process.env.npm_config_user_agent || "";
+  if (ua.startsWith("pnpm")) return "pnpm";
+  if (ua.startsWith("yarn")) return "yarn";
+  if (ua.startsWith("bun")) return "bun";
+  if (ua.startsWith("npm")) return "npm";
+  if (existsSync("pnpm-lock.yaml")) return "pnpm";
+  if (existsSync("yarn.lock")) return "yarn";
+  if (existsSync("bun.lockb") || existsSync("bun.lock")) return "bun";
+  return "npm";
+}
+
+const PM = detectPM();
+
+// `pnpm/yarn/bun run X --flag` passes flags directly. `npm run X` needs `--`
+// to forward extra args. Normalize here.
+function runScript(script, scriptArgs = []) {
+  const args = ["run", script];
+  if (scriptArgs.length > 0) {
+    if (PM === "npm") args.push("--", ...scriptArgs);
+    else args.push(...scriptArgs);
+  }
+  return run(PM, args);
+}
+
 function tomlIsLinked() {
   if (!existsSync("shopify.app.toml")) return false;
   const toml = readFileSync("shopify.app.toml", "utf8");
@@ -63,15 +90,18 @@ step("Create local Convex backend", () => {
 });
 
 step("Boot Convex once (fills CONVEX_* vars in .env)", () => {
-  run("npm", ["run", "convex:dev", "--", "--once"]);
+  runScript("convex:dev", ["--once"]);
 });
 
 step("Sync Shopify auth vars into Convex", () => {
   // Reads .env *and* falls back to process.env, so works even if pull was skipped.
-  run("npm", ["run", "convex:env:sync"]);
+  runScript("convex:env:sync");
 });
 
 console.log("\n✔ Setup complete.\n");
+console.log(`Detected package manager: ${PM}`);
 console.log("Next steps:");
-console.log("  Two terminals: `npm run dev` + `npm run convex:dev`");
-console.log("  Re-link or switch apps later: `npm run dev -- --reset`");
+console.log(`  Two terminals: \`${PM} run dev\` + \`${PM} run convex:dev\``);
+console.log(
+  `  Re-link or switch apps later: \`${PM} run dev ${PM === "npm" ? "-- " : ""}--reset\``,
+);
