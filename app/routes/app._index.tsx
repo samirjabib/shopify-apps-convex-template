@@ -8,6 +8,7 @@ import type {
   LoaderFunctionArgs,
 } from "react-router";
 import { useFetcher } from "react-router";
+import { useTranslation } from "react-i18next";
 import { api } from "../../convex/_generated/api";
 import { useShopifySessionToken } from "../lib/session-token";
 import { authenticate } from "../shopify.server";
@@ -142,6 +143,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 export default function Index() {
   const fetcher = useFetcher<typeof action>();
+  const { t } = useTranslation();
 
   const shopify = useAppBridge();
   const sessionToken = useShopifySessionToken();
@@ -169,12 +171,12 @@ export default function Index() {
   const generateProduct = () => fetcher.submit({}, { method: "POST" });
 
   return (
-    <s-page heading="Shopify app template">
+    <s-page heading={t("index.pageHeading")}>
       <s-button slot="primary-action" onClick={generateProduct}>
-        Generate a product
+        {t("index.generateProduct")}
       </s-button>
 
-      <s-section heading="Congrats on creating a new Shopify app 🎉">
+      <s-section heading={t("index.congrats.heading")}>
         <s-paragraph>
           This embedded app template uses{" "}
           <s-link
@@ -195,38 +197,16 @@ export default function Index() {
           mutation demo, to provide a starting point for app development.
         </s-paragraph>
       </s-section>
-      <s-section heading="Get started with products">
+      <s-section heading={t("index.products.heading")}>
         <s-paragraph>
-          Generate a product with GraphQL and get the JSON output for that
-          product. Learn more about the{" "}
-          <s-link
-            href="https://shopify.dev/docs/api/admin-graphql/latest/mutations/productCreate"
-            target="_blank"
-          >
-            productCreate
-          </s-link>{" "}
-          mutation in our API references. Includes a product{" "}
-          <s-link
-            href="https://shopify.dev/docs/apps/build/custom-data/metafields"
-            target="_blank"
-          >
-            metafield
-          </s-link>{" "}
-          and{" "}
-          <s-link
-            href="https://shopify.dev/docs/apps/build/custom-data/metaobjects"
-            target="_blank"
-          >
-            metaobject
-          </s-link>
-          .
+          {t("index.products.body")}
         </s-paragraph>
         <s-stack direction="inline" gap="base">
           <s-button
             onClick={generateProduct}
             {...(isLoading ? { loading: true } : {})}
           >
-            Generate a product
+            {t("index.generateProduct")}
           </s-button>
           {fetcher.data?.product && (
             <s-button
@@ -238,12 +218,12 @@ export default function Index() {
               target="_blank"
               variant="tertiary"
             >
-              Edit product
+              {t("index.editProduct")}
             </s-button>
           )}
         </s-stack>
         {fetcher.data?.product && (
-          <s-section heading="productCreate mutation">
+          <s-section heading={t("index.mutations.productCreate")}>
             <s-stack direction="block" gap="base">
               <s-box
                 padding="base"
@@ -256,7 +236,7 @@ export default function Index() {
                 </pre>
               </s-box>
 
-              <s-heading>productVariantsBulkUpdate mutation</s-heading>
+              <s-heading>{t("index.mutations.variantUpdate")}</s-heading>
               <s-box
                 padding="base"
                 borderWidth="base"
@@ -268,7 +248,7 @@ export default function Index() {
                 </pre>
               </s-box>
 
-              <s-heading>metaobjectUpsert mutation</s-heading>
+              <s-heading>{t("index.mutations.metaobjectUpsert")}</s-heading>
               <s-box
                 padding="base"
                 borderWidth="base"
@@ -286,15 +266,15 @@ export default function Index() {
         )}
       </s-section>
 
-      <s-section slot="aside" heading="App template specs">
+      <s-section slot="aside" heading={t("index.specs.heading")}>
         <s-paragraph>
-          <s-text>Framework: </s-text>
+          <s-text>{t("index.specs.framework")} </s-text>
           <s-link href="https://reactrouter.com/" target="_blank">
             React Router
           </s-link>
         </s-paragraph>
         <s-paragraph>
-          <s-text>Interface: </s-text>
+          <s-text>{t("index.specs.interface")} </s-text>
           <s-link
             href="https://shopify.dev/docs/api/app-home/using-polaris-components"
             target="_blank"
@@ -303,7 +283,7 @@ export default function Index() {
           </s-link>
         </s-paragraph>
         <s-paragraph>
-          <s-text>API: </s-text>
+          <s-text>{t("index.specs.api")} </s-text>
           <s-link
             href="https://shopify.dev/docs/api/admin-graphql"
             target="_blank"
@@ -312,7 +292,7 @@ export default function Index() {
           </s-link>
         </s-paragraph>
         <s-paragraph>
-          <s-text>Custom data: </s-text>
+          <s-text>{t("index.specs.customData")} </s-text>
           <s-link
             href="https://shopify.dev/docs/apps/build/custom-data"
             target="_blank"
@@ -321,49 +301,45 @@ export default function Index() {
           </s-link>
         </s-paragraph>
         <s-paragraph>
-          <s-text>Database: </s-text>
+          <s-text>{t("index.specs.database")} </s-text>
           <s-link href="https://www.convex.dev/" target="_blank">
             Convex
           </s-link>
         </s-paragraph>
       </s-section>
 
-      <s-section slot="aside" heading="Next steps">
+      <s-section slot="aside" heading={t("index.nextSteps.heading")}>
         <s-unordered-list>
           <s-list-item>
-            Build an{" "}
             <s-link
               href="https://shopify.dev/docs/apps/getting-started/build-app-example"
               target="_blank"
             >
-              example app
+              {t("index.nextSteps.buildExample")}
             </s-link>
           </s-list-item>
           <s-list-item>
-            Explore Shopify&apos;s API with{" "}
             <s-link
               href="https://shopify.dev/docs/apps/tools/graphiql-admin-api"
               target="_blank"
             >
-              GraphiQL
+              {t("index.nextSteps.exploreApi")}
             </s-link>
           </s-list-item>
         </s-unordered-list>
       </s-section>
 
-      <s-section heading="Convex shop data">
+      <s-section heading={t("index.shopData.heading")}>
         <s-paragraph>
           {shopData === undefined ? (
-            <s-text>Loading...</s-text>
+            <s-text>{t("index.shopData.loading")}</s-text>
           ) : shopData === null ? (
-            <s-text>
-              No shop record yet — install triggers afterAuth hook.
-            </s-text>
+            <s-text>{t("index.shopData.noRecord")}</s-text>
           ) : (
             <s-text>
-              Shop: {shopData.shop} | Installed:{" "}
+              Shop: {shopData.shop} | {t("index.shopData.installed")}{" "}
               {new Date(shopData.installedAt).toLocaleDateString()}
-              {shopData.scope ? ` | Scopes: ${shopData.scope}` : ""}
+              {shopData.scope ? ` | ${t("index.shopData.scopes")} ${shopData.scope}` : ""}
             </s-text>
           )}
         </s-paragraph>

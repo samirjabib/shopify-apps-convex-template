@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "additional": "Weitere Seite"
+  },
+  "index": {
+    "pageHeading": "Shopify-App-Vorlage",
+    "generateProduct": "Produkt generieren",
+    "editProduct": "Produkt bearbeiten",
+    "congrats": {
+      "heading": "Glückwunsch zur Erstellung deiner neuen Shopify-App 🎉",
+      "body": "Diese eingebettete App-Vorlage verwendet App-Bridge-Schnittstellenbeispiele wie eine zusätzliche Seite in der App-Navigation sowie eine Admin-GraphQL-Mutations-Demo als Ausgangspunkt für die App-Entwicklung."
+    },
+    "products": {
+      "heading": "Mit Produkten starten",
+      "body": "Generiere ein Produkt mit GraphQL und erhalte die JSON-Ausgabe. Mehr über die productCreate-Mutation in unserer API-Referenz. Enthält ein Produkt-Metafield und Metaobjekt."
+    },
+    "mutations": {
+      "productCreate": "productCreate-Mutation",
+      "variantUpdate": "productVariantsBulkUpdate-Mutation",
+      "metaobjectUpsert": "metaobjectUpsert-Mutation"
+    },
+    "specs": {
+      "heading": "App-Vorlage Spezifikationen",
+      "framework": "Framework:",
+      "interface": "Oberfläche:",
+      "api": "API:",
+      "customData": "Benutzerdaten:",
+      "database": "Datenbank:"
+    },
+    "nextSteps": {
+      "heading": "Nächste Schritte",
+      "buildExample": "Beispiel-App erstellen",
+      "exploreApi": "Shopify-API mit GraphiQL erkunden"
+    },
+    "shopData": {
+      "heading": "Convex-Shop-Daten",
+      "loading": "Laden...",
+      "noRecord": "Noch kein Shop-Datensatz — die Installation aktiviert den afterAuth-Hook.",
+      "installed": "Installiert:",
+      "scopes": "Berechtigungen:"
+    }
+  },
+  "additional": {
+    "pageHeading": "Weitere Seite",
+    "multiplePages": {
+      "heading": "Mehrere Seiten",
+      "body": "Die App-Vorlage enthält eine zusätzliche Seite, die zeigt, wie mehrere Seiten in der App-Navigation mit App Bridge erstellt werden.",
+      "body2": "Um eine eigene Seite in der Navigation anzuzeigen, füge eine Seite in app/routes und einen Link in der <ui-nav-menu>-Komponente in app/routes/app.jsx hinzu."
+    },
+    "resources": {
+      "heading": "Ressourcen",
+      "navBestPractices": "Best Practices für App-Navigation"
+    }
+  }
+}

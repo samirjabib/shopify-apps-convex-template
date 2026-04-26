@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "additional": "Page supplémentaire"
+  },
+  "index": {
+    "pageHeading": "Modèle d'application Shopify",
+    "generateProduct": "Générer un produit",
+    "editProduct": "Modifier le produit",
+    "congrats": {
+      "heading": "Félicitations pour la création de votre nouvelle application Shopify 🎉",
+      "body": "Ce modèle d'application intégrée utilise des exemples d'interface App Bridge comme une page supplémentaire dans la navigation, ainsi qu'une démo de mutation Admin GraphQL, comme point de départ pour le développement."
+    },
+    "products": {
+      "heading": "Commencer avec les produits",
+      "body": "Générez un produit avec GraphQL et obtenez la sortie JSON. En savoir plus sur la mutation productCreate dans notre référence API. Inclut un metafield et un métaobjiet produit."
+    },
+    "mutations": {
+      "productCreate": "Mutation productCreate",
+      "variantUpdate": "Mutation productVariantsBulkUpdate",
+      "metaobjectUpsert": "Mutation metaobjectUpsert"
+    },
+    "specs": {
+      "heading": "Spécifications du modèle",
+      "framework": "Framework :",
+      "interface": "Interface :",
+      "api": "API :",
+      "customData": "Données personnalisées :",
+      "database": "Base de données :"
+    },
+    "nextSteps": {
+      "heading": "Prochaines étapes",
+      "buildExample": "Créer une application exemple",
+      "exploreApi": "Explorer l'API Shopify avec GraphiQL"
+    },
+    "shopData": {
+      "heading": "Données boutique Convex",
+      "loading": "Chargement...",
+      "noRecord": "Pas encore d'enregistrement — l'installation déclenche le hook afterAuth.",
+      "installed": "Installé le :",
+      "scopes": "Autorisations :"
+    }
+  },
+  "additional": {
+    "pageHeading": "Page supplémentaire",
+    "multiplePages": {
+      "heading": "Plusieurs pages",
+      "body": "Le modèle d'application inclut une page supplémentaire qui montre comment créer plusieurs pages dans la navigation avec App Bridge.",
+      "body2": "Pour créer votre propre page dans la navigation, ajoutez une page dans app/routes et un lien dans le composant <ui-nav-menu> de app/routes/app.jsx."
+    },
+    "resources": {
+      "heading": "Ressources",
+      "navBestPractices": "Bonnes pratiques de navigation"
+    }
+  }
+}

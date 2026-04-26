@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "home": "Home",
+    "additional": "Additional page"
+  },
+  "index": {
+    "pageHeading": "Shopify app template",
+    "generateProduct": "Generate a product",
+    "editProduct": "Edit product",
+    "congrats": {
+      "heading": "Congrats on creating a new Shopify app 🎉",
+      "body": "This embedded app template uses App Bridge interface examples like an additional page in the app nav, as well as an Admin GraphQL mutation demo, to provide a starting point for app development."
+    },
+    "products": {
+      "heading": "Get started with products",
+      "body": "Generate a product with GraphQL and get the JSON output for that product. Learn more about the productCreate mutation in our API references. Includes a product metafield and metaobject."
+    },
+    "mutations": {
+      "productCreate": "productCreate mutation",
+      "variantUpdate": "productVariantsBulkUpdate mutation",
+      "metaobjectUpsert": "metaobjectUpsert mutation"
+    },
+    "specs": {
+      "heading": "App template specs",
+      "framework": "Framework:",
+      "interface": "Interface:",
+      "api": "API:",
+      "customData": "Custom data:",
+      "database": "Database:"
+    },
+    "nextSteps": {
+      "heading": "Next steps",
+      "buildExample": "Build an example app",
+      "exploreApi": "Explore Shopify's API with GraphiQL"
+    },
+    "shopData": {
+      "heading": "Convex shop data",
+      "loading": "Loading...",
+      "noRecord": "No shop record yet — install triggers afterAuth hook.",
+      "installed": "Installed:",
+      "scopes": "Scopes:"
+    }
+  },
+  "additional": {
+    "pageHeading": "Additional page",
+    "multiplePages": {
+      "heading": "Multiple pages",
+      "body": "The app template comes with an additional page which demonstrates how to create multiple pages within app navigation using App Bridge.",
+      "body2": "To create your own page and have it show up in the app navigation, add a page inside app/routes, and a link to it in the <ui-nav-menu> component found in app/routes/app.jsx."
+    },
+    "resources": {
+      "heading": "Resources",
+      "navBestPractices": "App nav best practices"
+    }
+  }
+}

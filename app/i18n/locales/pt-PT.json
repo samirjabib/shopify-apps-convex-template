@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "home": "Início",
+    "additional": "Página adicional"
+  },
+  "index": {
+    "pageHeading": "Modelo de aplicação Shopify",
+    "generateProduct": "Gerar um produto",
+    "editProduct": "Editar produto",
+    "congrats": {
+      "heading": "Parabéns por criar a sua nova aplicação Shopify 🎉",
+      "body": "Este modelo de aplicação incorporada utiliza exemplos de interface do App Bridge, como uma página adicional na navegação e uma demonstração de mutação Admin GraphQL, como ponto de partida para o desenvolvimento."
+    },
+    "products": {
+      "heading": "Começar com produtos",
+      "body": "Gere um produto com GraphQL e obtenha a saída JSON. Saiba mais sobre a mutação productCreate na nossa referência de API. Inclui metafield e metaobjeto."
+    },
+    "mutations": {
+      "productCreate": "Mutação productCreate",
+      "variantUpdate": "Mutação productVariantsBulkUpdate",
+      "metaobjectUpsert": "Mutação metaobjectUpsert"
+    },
+    "specs": {
+      "heading": "Especificações do modelo",
+      "framework": "Framework:",
+      "interface": "Interface:",
+      "api": "API:",
+      "customData": "Dados personalizados:",
+      "database": "Base de dados:"
+    },
+    "nextSteps": {
+      "heading": "Próximos passos",
+      "buildExample": "Criar uma aplicação de exemplo",
+      "exploreApi": "Explorar a API Shopify com GraphiQL"
+    },
+    "shopData": {
+      "heading": "Dados da loja no Convex",
+      "loading": "A carregar...",
+      "noRecord": "Ainda sem registo de loja — a instalação activa o hook afterAuth.",
+      "installed": "Instalado:",
+      "scopes": "Permissões:"
+    }
+  },
+  "additional": {
+    "pageHeading": "Página adicional",
+    "multiplePages": {
+      "heading": "Múltiplas páginas",
+      "body": "O modelo inclui uma página adicional que demonstra como criar múltiplas páginas na navegação da aplicação usando o App Bridge.",
+      "body2": "Para criar a sua própria página na navegação, adicione uma página em app/routes e uma ligação no componente <ui-nav-menu> em app/routes/app.jsx."
+    },
+    "resources": {
+      "heading": "Recursos",
+      "navBestPractices": "Melhores práticas de navegação"
+    }
+  }
+}

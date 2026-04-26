@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "home": "Strona główna",
+    "additional": "Dodatkowa strona"
+  },
+  "index": {
+    "pageHeading": "Szablon aplikacji Shopify",
+    "generateProduct": "Wygeneruj produkt",
+    "editProduct": "Edytuj produkt",
+    "congrats": {
+      "heading": "Gratulacje z okazji stworzenia nowej aplikacji Shopify 🎉",
+      "body": "Ten osadzony szablon aplikacji używa przykładów interfejsu App Bridge, takich jak dodatkowa strona w nawigacji aplikacji i demo mutacji Admin GraphQL, jako punkt wyjścia do tworzenia aplikacji."
+    },
+    "products": {
+      "heading": "Zacznij od produktów",
+      "body": "Wygeneruj produkt za pomocą GraphQL i pobierz dane JSON. Dowiedz się więcej o mutacji productCreate w naszej dokumentacji API. Zawiera metafield produktu i metaobiekt."
+    },
+    "mutations": {
+      "productCreate": "Mutacja productCreate",
+      "variantUpdate": "Mutacja productVariantsBulkUpdate",
+      "metaobjectUpsert": "Mutacja metaobjectUpsert"
+    },
+    "specs": {
+      "heading": "Specyfikacje szablonu",
+      "framework": "Framework:",
+      "interface": "Interfejs:",
+      "api": "API:",
+      "customData": "Dane niestandardowe:",
+      "database": "Baza danych:"
+    },
+    "nextSteps": {
+      "heading": "Następne kroki",
+      "buildExample": "Stwórz przykładową aplikację",
+      "exploreApi": "Poznaj API Shopify z GraphiQL"
+    },
+    "shopData": {
+      "heading": "Dane sklepu w Convex",
+      "loading": "Ładowanie...",
+      "noRecord": "Brak rekordu sklepu — instalacja wyzwala hook afterAuth.",
+      "installed": "Zainstalowano:",
+      "scopes": "Uprawnienia:"
+    }
+  },
+  "additional": {
+    "pageHeading": "Dodatkowa strona",
+    "multiplePages": {
+      "heading": "Wiele stron",
+      "body": "Szablon aplikacji zawiera dodatkową stronę, która pokazuje jak tworzyć wiele stron w nawigacji aplikacji używając App Bridge.",
+      "body2": "Aby utworzyć własną stronę w nawigacji, dodaj stronę w app/routes i link w komponencie <ui-nav-menu> w app/routes/app.jsx."
+    },
+    "resources": {
+      "heading": "Zasoby",
+      "navBestPractices": "Najlepsze praktyki nawigacji aplikacji"
+    }
+  }
+}

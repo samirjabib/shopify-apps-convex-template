@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "home": "Hjem",
+    "additional": "Ekstra side"
+  },
+  "index": {
+    "pageHeading": "Shopify-appmal",
+    "generateProduct": "Generer et produkt",
+    "editProduct": "Rediger produkt",
+    "congrats": {
+      "heading": "Gratulerer med å ha opprettet din nye Shopify-app 🎉",
+      "body": "Denne innebygde appmalen bruker App Bridge-grensesnitteksempler som en ekstra side i appnavigeringen og en Admin GraphQL-mutasjonsdemo som utgangspunkt for apputvikling."
+    },
+    "products": {
+      "heading": "Kom i gang med produkter",
+      "body": "Generer et produkt med GraphQL og hent JSON-utdataene. Les mer om productCreate-mutasjonen i API-referansene. Inkluderer et produktmetafelt og metaobjekt."
+    },
+    "mutations": {
+      "productCreate": "productCreate-mutasjon",
+      "variantUpdate": "productVariantsBulkUpdate-mutasjon",
+      "metaobjectUpsert": "metaobjectUpsert-mutasjon"
+    },
+    "specs": {
+      "heading": "Appmalens spesifikasjoner",
+      "framework": "Rammeverk:",
+      "interface": "Grensesnitt:",
+      "api": "API:",
+      "customData": "Tilpassede data:",
+      "database": "Database:"
+    },
+    "nextSteps": {
+      "heading": "Neste steg",
+      "buildExample": "Bygg en eksempelapp",
+      "exploreApi": "Utforsk Shopifys API med GraphiQL"
+    },
+    "shopData": {
+      "heading": "Convex butikkdata",
+      "loading": "Laster...",
+      "noRecord": "Ingen butikkoppføring ennå — installasjon utløser afterAuth-hook.",
+      "installed": "Installert:",
+      "scopes": "Tillatelser:"
+    }
+  },
+  "additional": {
+    "pageHeading": "Ekstra side",
+    "multiplePages": {
+      "heading": "Flere sider",
+      "body": "Appmalen leveres med en ekstra side som viser hvordan man oppretter flere sider i appnavigeringen ved hjelp av App Bridge.",
+      "body2": "For å opprette din egen side i navigeringen, legg til en side i app/routes og en lenke i <ui-nav-menu>-komponenten i app/routes/app.jsx."
+    },
+    "resources": {
+      "heading": "Ressurser",
+      "navBestPractices": "Beste praksis for appnavigering"
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "home": "Home",
+    "additional": "Pagina aggiuntiva"
+  },
+  "index": {
+    "pageHeading": "Template app Shopify",
+    "generateProduct": "Genera un prodotto",
+    "editProduct": "Modifica prodotto",
+    "congrats": {
+      "heading": "Congratulazioni per aver creato la tua nuova app Shopify 🎉",
+      "body": "Questo template di app incorporata utilizza esempi di interfaccia App Bridge come una pagina aggiuntiva nella navigazione e una demo di mutazione Admin GraphQL come punto di partenza per lo sviluppo."
+    },
+    "products": {
+      "heading": "Inizia con i prodotti",
+      "body": "Genera un prodotto con GraphQL e ottieni l'output JSON. Scopri di più sulla mutazione productCreate nella nostra documentazione API. Include metafield e metaoggetto."
+    },
+    "mutations": {
+      "productCreate": "Mutazione productCreate",
+      "variantUpdate": "Mutazione productVariantsBulkUpdate",
+      "metaobjectUpsert": "Mutazione metaobjectUpsert"
+    },
+    "specs": {
+      "heading": "Specifiche del template",
+      "framework": "Framework:",
+      "interface": "Interfaccia:",
+      "api": "API:",
+      "customData": "Dati personalizzati:",
+      "database": "Database:"
+    },
+    "nextSteps": {
+      "heading": "Prossimi passi",
+      "buildExample": "Crea un'app di esempio",
+      "exploreApi": "Esplora l'API Shopify con GraphiQL"
+    },
+    "shopData": {
+      "heading": "Dati negozio Convex",
+      "loading": "Caricamento...",
+      "noRecord": "Nessun record negozio — l'installazione attiva l'hook afterAuth.",
+      "installed": "Installato:",
+      "scopes": "Permessi:"
+    }
+  },
+  "additional": {
+    "pageHeading": "Pagina aggiuntiva",
+    "multiplePages": {
+      "heading": "Pagine multiple",
+      "body": "Il template include una pagina aggiuntiva che mostra come creare più pagine nella navigazione dell'app usando App Bridge.",
+      "body2": "Per creare la tua pagina nella navigazione, aggiungi una pagina in app/routes e un link nel componente <ui-nav-menu> in app/routes/app.jsx."
+    },
+    "resources": {
+      "heading": "Risorse",
+      "navBestPractices": "Best practice di navigazione"
+    }
+  }
+}
