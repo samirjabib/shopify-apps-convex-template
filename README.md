@@ -33,7 +33,7 @@ When done, `shopify.app.toml` has `client_id` + URLs filled in.
 
 **Alternatives:**
 
-- **GitHub Template** → click [Use this template](https://github.com/samirjabib/shopify-apps-convex-template/generate) on the repo
+- **GitHub Template** → click [Use this template](https://github.com/samirjabib/shopify-apps-convex-template/generate) on the repo. **Prefer this over Fork** — Fork inherits the upstream PR target and the "forked-from" badge. If you already forked, detach via _Settings → Danger Zone → "Leave fork network"_ before pushing work.
 - **Manual clone:**
   ```bash
   git clone https://github.com/samirjabib/shopify-apps-convex-template.git my-app
@@ -42,6 +42,17 @@ When done, `shopify.app.toml` has `client_id` + URLs filled in.
   ```
 
 > Need to re-link or switch apps later? `npm run dev -- --reset`.
+
+### Squashing template git history (optional)
+
+`Use this template` already gives you a single root commit. If you cloned/forked instead and want a clean history:
+
+```bash
+git checkout --orphan fresh-start
+git commit -m "chore: initial commit"
+git update-ref refs/heads/main HEAD
+git push --force origin main
+```
 
 ## First run — bootstrap
 
@@ -54,26 +65,19 @@ npm run setup
 That single command:
 
 1. Copies `.env.example` → `.env` (if missing)
-2. Registers a **local Convex backend** (`npx convex deployment create local --select`)
-3. Boots Convex once to populate `CONVEX_URL`, `VITE_CONVEX_URL`, `CONVEX_DEPLOY_KEY` in `.env`
-4. Best-effort syncs Shopify auth vars from `.env` into the Convex runtime
-
-Then fill the Shopify side of `.env` from your Partner Dashboard:
-
-```
-SHOPIFY_API_KEY=<from Partner Dashboard>
-SHOPIFY_API_SECRET=<from Partner Dashboard>
-SHOPIFY_APP_URL=<tunnel URL, auto-set on `npm run dev`>
-SCOPES=write_products
-```
-
-Re-sync Shopify creds into Convex once `.env` is filled:
-
-```bash
-npm run convex:env:sync
-```
+2. Runs `shopify app config link` (if `client_id` not yet in `shopify.app.toml`) to link your Partner-Dashboard app
+3. Runs `shopify app env pull` to populate `SHOPIFY_API_KEY`, `SHOPIFY_API_SECRET`, `SCOPES` in `.env`
+4. Registers a **local Convex backend** (`npx convex deployment create local --select`)
+5. Boots Convex once to populate `CONVEX_URL`, `VITE_CONVEX_URL`, `CONVEX_DEPLOY_KEY` in `.env`
+6. Syncs Shopify auth vars into the Convex runtime (reads `.env` _and_ falls back to `process.env`)
 
 > Why `setup` matters: `app/convex.server.ts` throws at module load if `CONVEX_DEPLOY_KEY` is missing, and the JWT validator inside Convex needs `SHOPIFY_API_SECRET`. The script handles both prerequisites in one shot.
+
+If you ever need to refresh Shopify creds after rotation:
+
+```bash
+npx shopify app env pull && npm run convex:env:sync
+```
 
 Two-terminal dev workflow:
 
@@ -157,11 +161,13 @@ Use `browser → Convex` for app data with realtime needs. Use `browser → serv
 
 Three handlers are wired and registered in `shopify.app.toml`:
 
-- `customers/data_request` → `app/routes/webhooks.app.customers_data_request.tsx`
-- `customers/redact` → `app/routes/webhooks.app.customers_redact.tsx`
-- `shop/redact` → `app/routes/webhooks.app.shop_redact.tsx` (purges sessions + shop record from Convex)
+- `customers/data_request` → `app/routes/webhooks.customers.data_request.tsx`
+- `customers/redact` → `app/routes/webhooks.customers.redact.tsx`
+- `shop/redact` → `app/routes/webhooks.shop.redact.tsx` (purges sessions + shop record from Convex)
 
 The `data_request` and `customers/redact` handlers acknowledge by default — customize them when your app stores customer-scoped data.
+
+> `npm run check:webhooks` diffs `shopify.app.toml` URIs against route files. Wire it into CI to catch drift.
 
 ## Billing (opt-in)
 
@@ -258,7 +264,8 @@ Missing keys fall back to `en` automatically.
 | `npm run dev` | Shopify CLI dev with embedded app tunnel |
 | `npm run dev -- --reset` | Re-link to a Shopify app (existing or new) |
 | `npm run convex:dev` | Convex dev server + codegen watcher + local `.env` sync |
-| `npm run convex:env:sync` | Sync Shopify auth vars from `.env` into the local Convex deployment |
+| `npm run convex:env:sync` | Sync Shopify auth vars from `.env` (or `process.env`) into the local Convex deployment |
+| `npm run check:webhooks` | Verify webhook URIs in `shopify.app.toml` match route files in `app/routes/` |
 | `npm run convex:deploy` | Deploy Convex schema + functions to production |
 | `npm run convex:key` | Re-sync `CONVEX_DEPLOY_KEY` from local backend config |
 | `npm run typecheck` | `react-router typegen` + `tsc --noEmit` |
@@ -331,6 +338,16 @@ vercel.json                          Vercel framework + build hint
 - watches `.convex/local/default/config.json` and refreshes `.env` on change
 
 If you previously linked a Convex Cloud dev deployment (`CONVEX_DEPLOYMENT=dev:...` in `.env.local`) and want to switch to local, back it up first: `cp .env.local .env.local.cloud.bak`. Restore is one `mv` away.
+
+### Working with git worktrees (Conductor)
+
+Conductor uses git worktrees, so each workspace has its own working tree at `~/conductor/workspaces/<repo>/<workspace>/` and the root tree at `~/conductor/repos/<repo>/`. `.env` and `.env.local` are gitignored and **per-worktree** — they do not propagate. After running `npm run setup` in one worktree, copy them across when you need a peer worktree to run:
+
+```bash
+cp .env .env.local /path/to/peer/worktree/
+```
+
+Or rerun `npm run setup` in the new worktree (it's idempotent).
 
 ## Convex AI files
 
