@@ -16,26 +16,26 @@ describe("resolveLocale", () => {
 
   it("matches case-insensitively", () => {
     expect(resolveLocale("ES")).toBe("es");
-    expect(resolveLocale("zh-cn")).toBe("zh-CN");
     expect(resolveLocale("PT-br")).toBe("pt-BR");
+    expect(resolveLocale("FR")).toBe("fr");
   });
 
-  it("aliases pt → pt-BR, zh → zh-CN", () => {
+  it("aliases pt → pt-BR", () => {
     expect(resolveLocale("pt")).toBe("pt-BR");
-    expect(resolveLocale("zh")).toBe("zh-CN");
+    expect(resolveLocale("pt-PT")).toBe("pt-BR");
   });
 
   it("matches by language prefix", () => {
     expect(resolveLocale("en-US")).toBe("en");
-    expect(resolveLocale("de-AT")).toBe("de");
     expect(resolveLocale("fr-CA")).toBe("fr");
+    expect(resolveLocale("es-MX")).toBe("es");
   });
 
-  it("falls back to en for unsupported (e.g. dropped locales)", () => {
+  it("falls back to en for unsupported", () => {
     expect(resolveLocale("xx")).toBe("en");
     expect(resolveLocale("klingon")).toBe("en");
-    // Languages we removed from the principal set fall back via prefix or to en
-    expect(resolveLocale("ko")).toBe("en");
-    expect(resolveLocale("nl")).toBe("en");
+    expect(resolveLocale("de")).toBe("en");
+    expect(resolveLocale("ja")).toBe("en");
+    expect(resolveLocale("zh-CN")).toBe("en");
   });
 });
