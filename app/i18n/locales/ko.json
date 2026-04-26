@@ -5,20 +5,8 @@
   },
   "index": {
     "pageHeading": "Shopify 앱 템플릿",
-    "generateProduct": "제품 생성",
-    "editProduct": "제품 편집",
     "congrats": {
-      "heading": "새 Shopify 앱을 만드신 것을 축하합니다 🎉",
       "body": "이 임베디드 앱 템플릿은 앱 내비게이션의 추가 페이지와 Admin GraphQL 뮤테이션 데모 등 App Bridge 인터페이스 예시를 사용하여 앱 개발의 시작점을 제공합니다."
-    },
-    "products": {
-      "heading": "제품으로 시작하기",
-      "body": "GraphQL로 제품을 생성하고 JSON 출력을 확인하세요. API 참조에서 productCreate 뮤테이션에 대해 자세히 알아보세요. 제품 메타필드와 메타오브젝트가 포함되어 있습니다."
-    },
-    "mutations": {
-      "productCreate": "productCreate 뮤테이션",
-      "variantUpdate": "productVariantsBulkUpdate 뮤테이션",
-      "metaobjectUpsert": "metaobjectUpsert 뮤테이션"
     },
     "specs": {
       "heading": "앱 템플릿 사양",
@@ -27,18 +15,6 @@
       "api": "API:",
       "customData": "커스텀 데이터:",
       "database": "데이터베이스:"
-    },
-    "nextSteps": {
-      "heading": "다음 단계",
-      "buildExample": "예제 앱 만들기",
-      "exploreApi": "GraphiQL로 Shopify API 탐색"
-    },
-    "shopData": {
-      "heading": "Convex 쇼핑몰 데이터",
-      "loading": "로딩 중...",
-      "noRecord": "아직 쇼핑몰 기록이 없습니다 — 설치 시 afterAuth 훅이 실행됩니다.",
-      "installed": "설치일:",
-      "scopes": "스코프:"
     }
   },
   "additional": {

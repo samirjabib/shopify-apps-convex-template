@@ -5,20 +5,8 @@
   },
   "index": {
     "pageHeading": "Shopifyアプリテンプレート",
-    "generateProduct": "商品を生成",
-    "editProduct": "商品を編集",
     "congrats": {
-      "heading": "新しいShopifyアプリの作成おめでとうございます 🎉",
       "body": "この埋め込みアプリテンプレートは、アプリナビの追加ページやAdmin GraphQLミューテーションデモなど、App Bridgeのインターフェース例を使用してアプリ開発の出発点を提供します。"
-    },
-    "products": {
-      "heading": "商品を使って始めよう",
-      "body": "GraphQLで商品を生成してJSON出力を取得しましょう。APIリファレンスでproductCreateミューテーションについて詳しく学べます。メタフィールドとメタオブジェクトも含まれています。"
-    },
-    "mutations": {
-      "productCreate": "productCreateミューテーション",
-      "variantUpdate": "productVariantsBulkUpdateミューテーション",
-      "metaobjectUpsert": "metaobjectUpsertミューテーション"
     },
     "specs": {
       "heading": "アプリテンプレートの仕様",
@@ -27,18 +15,6 @@
       "api": "API：",
       "customData": "カスタムデータ：",
       "database": "データベース："
-    },
-    "nextSteps": {
-      "heading": "次のステップ",
-      "buildExample": "サンプルアプリを作成する",
-      "exploreApi": "GraphiQLでShopify APIを探索する"
-    },
-    "shopData": {
-      "heading": "ConvexのショップデータShop data",
-      "loading": "読み込み中...",
-      "noRecord": "まだショップレコードがありません — インストールがafterAuthフックを起動します。",
-      "installed": "インストール日：",
-      "scopes": "スコープ："
     }
   },
   "additional": {

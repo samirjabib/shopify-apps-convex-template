@@ -5,20 +5,8 @@
   },
   "index": {
     "pageHeading": "Shopify app template",
-    "generateProduct": "Generate a product",
-    "editProduct": "Edit product",
     "congrats": {
-      "heading": "Congrats on creating a new Shopify app 🎉",
       "body": "This embedded app template uses App Bridge interface examples like an additional page in the app nav, as well as an Admin GraphQL mutation demo, to provide a starting point for app development."
-    },
-    "products": {
-      "heading": "Get started with products",
-      "body": "Generate a product with GraphQL and get the JSON output for that product. Learn more about the productCreate mutation in our API references. Includes a product metafield and metaobject."
-    },
-    "mutations": {
-      "productCreate": "productCreate mutation",
-      "variantUpdate": "productVariantsBulkUpdate mutation",
-      "metaobjectUpsert": "metaobjectUpsert mutation"
     },
     "specs": {
       "heading": "App template specs",
@@ -27,18 +15,6 @@
       "api": "API:",
       "customData": "Custom data:",
       "database": "Database:"
-    },
-    "nextSteps": {
-      "heading": "Next steps",
-      "buildExample": "Build an example app",
-      "exploreApi": "Explore Shopify's API with GraphiQL"
-    },
-    "shopData": {
-      "heading": "Convex shop data",
-      "loading": "Loading...",
-      "noRecord": "No shop record yet — install triggers afterAuth hook.",
-      "installed": "Installed:",
-      "scopes": "Scopes:"
     }
   },
   "additional": {

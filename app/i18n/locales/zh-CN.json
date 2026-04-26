@@ -5,20 +5,8 @@
   },
   "index": {
     "pageHeading": "Shopify 应用模板",
-    "generateProduct": "生成产品",
-    "editProduct": "编辑产品",
     "congrats": {
-      "heading": "恭喜您创建了新的 Shopify 应用 🎉",
       "body": "此嵌入式应用模板使用 App Bridge 界面示例，包括应用导航中的附加页面和 Admin GraphQL 变更演示，作为应用开发的起点。"
-    },
-    "products": {
-      "heading": "从产品开始",
-      "body": "使用 GraphQL 生成产品并获取 JSON 输出。在 API 参考中了解更多关于 productCreate 变更的信息。包含产品 metafield 和元对象。"
-    },
-    "mutations": {
-      "productCreate": "productCreate 变更",
-      "variantUpdate": "productVariantsBulkUpdate 变更",
-      "metaobjectUpsert": "metaobjectUpsert 变更"
     },
     "specs": {
       "heading": "应用模板规格",
@@ -27,18 +15,6 @@
       "api": "API：",
       "customData": "自定义数据：",
       "database": "数据库："
-    },
-    "nextSteps": {
-      "heading": "下一步",
-      "buildExample": "构建示例应用",
-      "exploreApi": "使用 GraphiQL 探索 Shopify API"
-    },
-    "shopData": {
-      "heading": "Convex 店铺数据",
-      "loading": "加载中...",
-      "noRecord": "暂无店铺记录 — 安装会触发 afterAuth 钩子。",
-      "installed": "安装时间：",
-      "scopes": "权限范围："
     }
   },
   "additional": {

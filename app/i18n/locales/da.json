@@ -5,20 +5,8 @@
   },
   "index": {
     "pageHeading": "Shopify-appskabelon",
-    "generateProduct": "Generér et produkt",
-    "editProduct": "Rediger produkt",
     "congrats": {
-      "heading": "Tillykke med at skabe din nye Shopify-app 🎉",
       "body": "Denne indlejrede appskabelon bruger App Bridge-grænsefladeeksempler som en ekstra side i appnavigationen og en Admin GraphQL-mutationsdemo som udgangspunkt for aprudvikling."
-    },
-    "products": {
-      "heading": "Kom i gang med produkter",
-      "body": "Generér et produkt med GraphQL og hent JSON-outputtet. Lær mere om productCreate-mutationen i vores API-referencer. Inkluderer et produktmetafelt og metaobjekt."
-    },
-    "mutations": {
-      "productCreate": "productCreate-mutation",
-      "variantUpdate": "productVariantsBulkUpdate-mutation",
-      "metaobjectUpsert": "metaobjectUpsert-mutation"
     },
     "specs": {
       "heading": "Appskabelonens specifikationer",
@@ -27,18 +15,6 @@
       "api": "API:",
       "customData": "Tilpassede data:",
       "database": "Database:"
-    },
-    "nextSteps": {
-      "heading": "Næste trin",
-      "buildExample": "Byg en eksempelapp",
-      "exploreApi": "Udforsk Shopifys API med GraphiQL"
-    },
-    "shopData": {
-      "heading": "Convex butiksdata",
-      "loading": "Indlæser...",
-      "noRecord": "Ingen butikspost endnu — installationen udløser afterAuth-hook.",
-      "installed": "Installeret:",
-      "scopes": "Tilladelser:"
     }
   },
   "additional": {

@@ -5,20 +5,8 @@
   },
   "index": {
     "pageHeading": "Shopify-app-sjabloon",
-    "generateProduct": "Produceer een product",
-    "editProduct": "Product bewerken",
     "congrats": {
-      "heading": "Gefeliciteerd met het aanmaken van je nieuwe Shopify-app 🎉",
       "body": "Dit ingebedde app-sjabloon gebruikt App Bridge-interfacevoorbeelden zoals een extra pagina in de app-navigatie en een Admin GraphQL-mutatiedemo als startpunt voor app-ontwikkeling."
-    },
-    "products": {
-      "heading": "Aan de slag met producten",
-      "body": "Genereer een product met GraphQL en ontvang de JSON-uitvoer. Meer informatie over de productCreate-mutatie in onze API-referenties. Inclusief een product-metafield en metaobject."
-    },
-    "mutations": {
-      "productCreate": "productCreate-mutatie",
-      "variantUpdate": "productVariantsBulkUpdate-mutatie",
-      "metaobjectUpsert": "metaobjectUpsert-mutatie"
     },
     "specs": {
       "heading": "App-sjabloon specificaties",
@@ -27,18 +15,6 @@
       "api": "API:",
       "customData": "Aangepaste gegevens:",
       "database": "Database:"
-    },
-    "nextSteps": {
-      "heading": "Volgende stappen",
-      "buildExample": "Bouw een voorbeeld-app",
-      "exploreApi": "Verken Shopify's API met GraphiQL"
-    },
-    "shopData": {
-      "heading": "Convex winkelgegevens",
-      "loading": "Laden...",
-      "noRecord": "Nog geen winkelrecord — installatie activeert de afterAuth-hook.",
-      "installed": "Geïnstalleerd:",
-      "scopes": "Bereiken:"
     }
   },
   "additional": {

@@ -5,20 +5,8 @@
   },
   "index": {
     "pageHeading": "Shopify-App-Vorlage",
-    "generateProduct": "Produkt generieren",
-    "editProduct": "Produkt bearbeiten",
     "congrats": {
-      "heading": "Glückwunsch zur Erstellung deiner neuen Shopify-App 🎉",
       "body": "Diese eingebettete App-Vorlage verwendet App-Bridge-Schnittstellenbeispiele wie eine zusätzliche Seite in der App-Navigation sowie eine Admin-GraphQL-Mutations-Demo als Ausgangspunkt für die App-Entwicklung."
-    },
-    "products": {
-      "heading": "Mit Produkten starten",
-      "body": "Generiere ein Produkt mit GraphQL und erhalte die JSON-Ausgabe. Mehr über die productCreate-Mutation in unserer API-Referenz. Enthält ein Produkt-Metafield und Metaobjekt."
-    },
-    "mutations": {
-      "productCreate": "productCreate-Mutation",
-      "variantUpdate": "productVariantsBulkUpdate-Mutation",
-      "metaobjectUpsert": "metaobjectUpsert-Mutation"
     },
     "specs": {
       "heading": "App-Vorlage Spezifikationen",
@@ -27,18 +15,6 @@
       "api": "API:",
       "customData": "Benutzerdaten:",
       "database": "Datenbank:"
-    },
-    "nextSteps": {
-      "heading": "Nächste Schritte",
-      "buildExample": "Beispiel-App erstellen",
-      "exploreApi": "Shopify-API mit GraphiQL erkunden"
-    },
-    "shopData": {
-      "heading": "Convex-Shop-Daten",
-      "loading": "Laden...",
-      "noRecord": "Noch kein Shop-Datensatz — die Installation aktiviert den afterAuth-Hook.",
-      "installed": "Installiert:",
-      "scopes": "Berechtigungen:"
     }
   },
   "additional": {
