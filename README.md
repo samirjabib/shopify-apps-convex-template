@@ -17,73 +17,81 @@ Opinionated boilerplate for embedded Shopify admin apps. RR7 SSR, App Bridge ses
 
 ## Quick start
 
-**Recommended — Shopify CLI:**
+**Recommended — GitHub Template button:**
+
+Click [Use this template](https://github.com/samirjabib/shopify-apps-convex-template/generate) on the repo. GitHub creates a clean copy in your account with a single squashed commit and **no fork relationship**.
+
+> If you forked instead of using the template button, your repo will stay attached to the upstream fork network (PRs default to upstream, "fork" badge in the UI). Detach it via **GitHub Settings → Danger Zone → Leave fork network** before pushing work.
+
+**Alternative — Shopify CLI:**
 
 ```bash
 shopify app init --template https://github.com/samirjabib/shopify-apps-convex-template
 ```
 
-Shopify CLI clones the template, runs `npm install`, prompts you to:
+Shopify CLI clones the template, runs `npm install`, prompts you to sign in, connect/create the Shopify app, and pick a dev store. When done, `shopify.app.toml` has `client_id` + URLs filled.
 
-1. Sign in to your Shopify Partner account
-2. **Connect to existing app** (use one already in Partner Dashboard) **or** **Create a new app** (CLI provisions it)
-3. Pick a **dev store** for installation
+**Alternative — Manual clone:**
 
-When done, `shopify.app.toml` has `client_id` + URLs filled in.
+```bash
+git clone https://github.com/samirjabib/shopify-apps-convex-template.git my-app
+cd my-app && nvm use && npm install
+```
 
-**Alternatives:**
+If you cloned manually and want to discard the template's commit history before pushing:
 
-- **GitHub Template** → click [Use this template](https://github.com/samirjabib/shopify-apps-convex-template/generate) on the repo
-- **Manual clone:**
-  ```bash
-  git clone https://github.com/samirjabib/shopify-apps-convex-template.git my-app
-  cd my-app && nvm use && npm install
-  npm run dev -- --reset    # link a Shopify app interactively
-  ```
+```bash
+git checkout --orphan fresh-start
+git commit -m "chore: initial commit"
+git update-ref refs/heads/main HEAD
+git checkout main
+git push --force origin main
+```
 
 > Need to re-link or switch apps later? `npm run dev -- --reset`.
 
 ## First run — bootstrap
 
-After Shopify CLI / GitHub Template / clone is in place, run:
+After clone or `shopify app init`, run a single command:
 
 ```bash
 npm run setup
 ```
 
-That single command:
+That command:
 
 1. Copies `.env.example` → `.env` (if missing)
-2. Registers a **local Convex backend** (`npx convex deployment create local --select`)
-3. Boots Convex once to populate `CONVEX_URL`, `VITE_CONVEX_URL`, `CONVEX_DEPLOY_KEY` in `.env`
-4. Best-effort syncs Shopify auth vars from `.env` into the Convex runtime
+2. Links the Shopify app (`shopify app config link` — interactive if not linked yet)
+3. Pulls API keys from the Partner Dashboard into `.env` (`shopify app env pull`)
+4. Registers a **local Convex backend** (`npx convex deployment create local --select`)
+5. Boots Convex once to write `.env.local` and populate `CONVEX_URL`, `VITE_CONVEX_URL`, `CONVEX_DEPLOY_KEY` in `.env`
+6. Syncs Shopify auth vars from `.env` into the Convex runtime
 
-Then fill the Shopify side of `.env` from your Partner Dashboard:
+Result: a fresh clone reaches `npm run dev:all` with **zero manual `.env` edits**.
 
-```
-SHOPIFY_API_KEY=<from Partner Dashboard>
-SHOPIFY_API_SECRET=<from Partner Dashboard>
-SHOPIFY_APP_URL=<tunnel URL, auto-set on `npm run dev`>
-SCOPES=write_products
-```
+> Why `setup` matters: `app/convex.server.ts` throws at module load if `CONVEX_DEPLOY_KEY` is missing, and the JWT validator inside Convex needs `SHOPIFY_API_SECRET`. The script handles every prerequisite in one shot.
 
-Re-sync Shopify creds into Convex once `.env` is filled:
+### Dev workflow
 
-```bash
-npm run convex:env:sync
-```
-
-> Why `setup` matters: `app/convex.server.ts` throws at module load if `CONVEX_DEPLOY_KEY` is missing, and the JWT validator inside Convex needs `SHOPIFY_API_SECRET`. The script handles both prerequisites in one shot.
-
-Two-terminal dev workflow:
+Single terminal (recommended):
 
 ```bash
-# terminal 1
-npm run dev
+npm run dev:all
+```
 
-# terminal 2
+Runs RR7 (`shopify app dev`) and the Convex local backend together via `concurrently`. Either side failing kills the other.
+
+Two terminals (if you want logs separated):
+
+```bash
+# terminal 1 — Convex local backend (must stay running)
 npm run convex:dev
+
+# terminal 2 — Shopify dev (RR7 + tunnel)
+npm run dev
 ```
+
+> Forgot the Convex side? `app/convex.server.ts` throws a friendly error at boot pointing you to `npm run convex:dev`.
 
 ## Deploy to Vercel
 
@@ -162,6 +170,8 @@ Three handlers are wired and registered in `shopify.app.toml`:
 - `shop/redact` → `app/routes/webhooks.app.shop_redact.tsx` (purges sessions + shop record from Convex)
 
 The `data_request` and `customers/redact` handlers acknowledge by default — customize them when your app stores customer-scoped data.
+
+`npm run check:webhooks` lints `shopify.app.toml` against the route files in `app/routes/` and exits 1 if any subscription URI lacks a handler. Wire it into CI to catch drift before deploy.
 
 ## Billing (opt-in)
 
@@ -254,13 +264,16 @@ Missing keys fall back to `en` automatically.
 
 | Command | Purpose |
 |---|---|
-| `npm run setup` | One-shot post-clone bootstrap (Convex local + .env scaffold) |
+| `npm run setup` | One-shot post-clone bootstrap (link app, env pull, Convex local, env sync) |
 | `npm run dev` | Shopify CLI dev with embedded app tunnel |
+| `npm run dev:all` | `dev` + `convex:dev` together (single terminal, via `concurrently`) |
 | `npm run dev -- --reset` | Re-link to a Shopify app (existing or new) |
 | `npm run convex:dev` | Convex dev server + codegen watcher + local `.env` sync |
-| `npm run convex:env:sync` | Sync Shopify auth vars from `.env` into the local Convex deployment |
+| `npm run convex:env:sync` | Sync Shopify auth vars from `.env` (or `process.env`) into the local Convex deployment |
 | `npm run convex:deploy` | Deploy Convex schema + functions to production |
-| `npm run convex:key` | Re-sync `CONVEX_DEPLOY_KEY` from local backend config |
+| `npm run convex:key` | Re-sync `CONVEX_DEPLOY_KEY`/`CONVEX_URL` from local backend config |
+| `npm run convex:reset-to-local` | Recover from a stuck cloud-dev deployment (rebuild local backend, repopulate `.env`) |
+| `npm run check:webhooks` | Lint `shopify.app.toml` URIs against `app/routes/webhooks.*` files |
 | `npm run typecheck` | `react-router typegen` + `tsc --noEmit` |
 | `npm run test` | Vitest watch |
 | `npm run test:run` | Vitest single-run |
@@ -330,7 +343,15 @@ vercel.json                          Vercel framework + build hint
 - avoids the `InvalidDeploymentName` error from the CLI reading the local admin key from `.env`
 - watches `.convex/local/default/config.json` and refreshes `.env` on change
 
-If you previously linked a Convex Cloud dev deployment (`CONVEX_DEPLOYMENT=dev:...` in `.env.local`) and want to switch to local, back it up first: `cp .env.local .env.local.cloud.bak`. Restore is one `mv` away.
+If you previously linked a Convex Cloud dev deployment (`CONVEX_DEPLOYMENT=dev:...` in `.env.local`) and want to switch back to local:
+
+```bash
+npm run convex:reset-to-local
+```
+
+That backs up `.env.local` to `.env.local.cloud.bak`, recreates the local backend, repopulates `.env`, and re-syncs Shopify keys. Restore the cloud config any time with `mv .env.local.cloud.bak .env.local`.
+
+If you'd rather stay on cloud dev, generate a deploy key from the [Convex dashboard](https://dashboard.convex.dev) → Settings → Deploy Keys and paste it into `.env` as `CONVEX_DEPLOY_KEY`. The Convex CLI cannot generate this for you.
 
 ## Convex AI files
 
@@ -345,6 +366,40 @@ To refresh: `npx convex ai-files install`.
 ## Dependency updates
 
 Renovate opens grouped PRs weekly. Patch, minor (Biome only), `@types/*`, and security fixes auto-merge after CI green. Majors gated via the Dependency Dashboard. Convex upgrades trigger `npx convex codegen` post-install to keep `_generated/` in sync.
+
+## Worktrees & Conductor
+
+This template assumes a single working tree. If you use [Conductor](https://conductor.build) (or any `git worktree` setup), each worktree gets its own gitignored `.env` and `.env.local`. Setting up env in one workspace **does not** propagate to peer worktrees — copy them by hand:
+
+```bash
+# from a peer worktree
+cp ../<peer-name>/.env .
+cp ../<peer-name>/.env.local .
+npm run convex:env:sync   # re-bind keys to this worktree's local Convex
+```
+
+If you run inside Conductor, set the workspace **Run Script** to `npm run convex:dev`. Claude can then read backend logs live via the `mcp__conductor__GetTerminalOutput` MCP tool while debugging — no copy-paste required. Other useful Conductor MCP tools while iterating on this template: `GetWorkspaceDiff`, `AskUserQuestion`, `DiffComment`.
+
+## Package manager
+
+This template ships with **npm** (committed `package-lock.json`, `npm exec` in `shopify.web.toml`, `workspaces` field in `package.json`). Stick with npm unless you have a specific reason to switch.
+
+To migrate to pnpm:
+
+1. Create `pnpm-workspace.yaml`:
+   ```yaml
+   packages:
+     - "extensions/*"
+
+   onlyBuiltDependencies:
+     - "@parcel/watcher"
+     - esbuild
+   ```
+2. Edit `shopify.web.toml`: `dev = "npm exec react-router dev"` → `dev = "pnpm exec react-router dev"`
+3. Delete `node_modules` and `package-lock.json`, then `pnpm install`
+4. Optionally remove the `workspaces` field from `package.json` (now redundant)
+
+> Editing `pnpm-workspace.yaml` by hand is required — `pnpm config set --location project onlyBuiltDependencies '...'` corrupts the YAML in pnpm 10.33.
 
 ## License
 

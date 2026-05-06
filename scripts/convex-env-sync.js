@@ -1,43 +1,42 @@
 #!/usr/bin/env node
-import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
 import { spawnSync } from "node:child_process";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import { readEnvFile } from "./lib/env.js";
 
 const projectRoot = process.cwd();
 const envPath = join(projectRoot, ".env");
 const envFilePath = join(projectRoot, ".env.local");
 const convexBin = process.platform === "win32" ? "npx.cmd" : "npx";
 
-if (!existsSync(envPath)) {
-  console.error("Missing .env file.");
-  console.error("Create .env from .env.example first.");
-  process.exit(1);
-}
-
 if (!existsSync(envFilePath)) {
   console.error("Missing .env.local file.");
-  console.error("Run `npm run convex:dev -- --once` first to initialize the local Convex deployment.");
+  console.error(
+    "Run `npm run convex:dev -- --once` first to initialize the local Convex deployment.",
+  );
   process.exit(1);
 }
 
-function parseEnvFile(content) {
-  const values = {};
-  for (const rawLine of content.split(/\r?\n/)) {
-    const line = rawLine.trim();
-    if (!line || line.startsWith("#")) continue;
-    const separatorIndex = line.indexOf("=");
-    if (separatorIndex === -1) continue;
-    const key = line.slice(0, separatorIndex).trim();
-    let value = line.slice(separatorIndex + 1).trim();
-    if (
-      (value.startsWith('"') && value.endsWith('"')) ||
-      (value.startsWith("'") && value.endsWith("'"))
-    ) {
-      value = value.slice(1, -1);
-    }
-    values[key] = value;
-  }
-  return values;
+// Merge: .env file values override process.env (file is source of truth when present),
+// but process.env fills gaps when .env is missing or partially empty.
+// This lets `shopify app dev` runtime injection feed the sync transparently.
+const fileEnv = readEnvFile(envPath);
+const env = { ...process.env, ...fileEnv };
+
+const requiredKeys = ["SHOPIFY_API_KEY", "SHOPIFY_API_SECRET"];
+const missingKeys = requiredKeys.filter((key) => !env[key]);
+
+if (missingKeys.length > 0) {
+  console.error(
+    `Missing required Shopify variables: ${missingKeys.join(", ")}`,
+  );
+  console.error(
+    "Populate them in .env (or export in shell), then rerun `npm run convex:env:sync`.",
+  );
+  console.error(
+    "Tip: `shopify app env pull` writes them into .env automatically once the app is linked.",
+  );
+  process.exit(1);
 }
 
 function setConvexEnvVar(key, value) {
@@ -53,18 +52,6 @@ function setConvexEnvVar(key, value) {
   if (result.status !== 0) {
     process.exit(result.status ?? 1);
   }
-}
-
-const env = parseEnvFile(readFileSync(envPath, "utf8"));
-const requiredKeys = ["SHOPIFY_API_KEY", "SHOPIFY_API_SECRET"];
-const missingKeys = requiredKeys.filter((key) => !env[key]);
-
-if (missingKeys.length > 0) {
-  console.error(
-    `Missing required Shopify variables in .env: ${missingKeys.join(", ")}`,
-  );
-  console.error("Populate them in .env, then rerun `npm run convex:env:sync`.");
-  process.exit(1);
 }
 
 const keysToSync = [

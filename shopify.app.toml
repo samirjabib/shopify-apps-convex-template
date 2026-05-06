@@ -24,18 +24,17 @@ api_version = "2026-07"
   uri = "/webhooks/app/uninstalled"
 
   # GDPR mandatory webhooks (Shopify App Store requirement)
+  # Compliance subscriptions only need `compliance_topics` — Shopify routes
+  # them automatically; declaring `topics` again would double-register.
   [[webhooks.subscriptions]]
-  topics = [ "customers/data_request" ]
   uri = "/webhooks/app/customers_data_request"
   compliance_topics = [ "customers/data_request" ]
 
   [[webhooks.subscriptions]]
-  topics = [ "customers/redact" ]
   uri = "/webhooks/app/customers_redact"
   compliance_topics = [ "customers/redact" ]
 
   [[webhooks.subscriptions]]
-  topics = [ "shop/redact" ]
   uri = "/webhooks/app/shop_redact"
   compliance_topics = [ "shop/redact" ]
 
