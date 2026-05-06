@@ -17,11 +17,20 @@ Opinionated boilerplate for embedded Shopify admin apps. RR7 SSR, App Bridge ses
 
 ## Quick start
 
-**Recommended — GitHub Template button:**
+**One command:**
 
-Click [Use this template](https://github.com/samirjabib/shopify-apps-convex-template/generate) on the repo. GitHub creates a clean copy in your account with a single squashed commit and **no fork relationship**.
+```bash
+npm create shopify-convex@latest my-app
+```
 
-> If you forked instead of using the template button, your repo will stay attached to the upstream fork network (PRs default to upstream, "fork" badge in the UI). Detach it via **GitHub Settings → Danger Zone → Leave fork network** before pushing work.
+Clones the template (no fork relationship, fresh git history), runs `npm install`, then `npm run setup` to link your Shopify app, pull API keys, and register a local Convex backend. When it finishes:
+
+```bash
+cd my-app
+npm run dev:all     # RR7 + Convex local backend together
+```
+
+> The bin is published as [`create-shopify-convex`](https://www.npmjs.com/package/create-shopify-convex). Source: <https://github.com/samirjabib/create-shopify-convex>.
 
 **Alternative — Shopify CLI:**
 
@@ -29,13 +38,19 @@ Click [Use this template](https://github.com/samirjabib/shopify-apps-convex-temp
 shopify app init --template https://github.com/samirjabib/shopify-apps-convex-template
 ```
 
-Shopify CLI clones the template, runs `npm install`, prompts you to sign in, connect/create the Shopify app, and pick a dev store. When done, `shopify.app.toml` has `client_id` + URLs filled.
+Shopify CLI clones the template, runs `npm install`, prompts you to sign in, connect/create the Shopify app, and pick a dev store. When done, `shopify.app.toml` has `client_id` + URLs filled. Note: with this path you still need to run `npm run setup` afterwards to wire up Convex.
+
+**Alternative — GitHub template button:**
+
+Click [Use this template](https://github.com/samirjabib/shopify-apps-convex-template/generate) on the repo. GitHub creates a clean copy in your account with a single squashed commit and no fork relationship. Then `git clone` your new repo and run `npm install && npm run setup`.
+
+> If you forked instead of using the template button, your repo will stay attached to the upstream fork network (PRs default to upstream, "fork" badge in the UI). Detach it via **GitHub Settings → Danger Zone → Leave fork network** before pushing work.
 
 **Alternative — Manual clone:**
 
 ```bash
 git clone https://github.com/samirjabib/shopify-apps-convex-template.git my-app
-cd my-app && nvm use && npm install
+cd my-app && nvm use && npm install && npm run setup
 ```
 
 If you cloned manually and want to discard the template's commit history before pushing:
