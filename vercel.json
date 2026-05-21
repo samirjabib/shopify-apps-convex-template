@@ -1,7 +1,0 @@
-{
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "react-router",
-  "buildCommand": "npm run convex:deploy && npm run build",
-  "installCommand": "npm install",
-  "regions": ["iad1"]
-}

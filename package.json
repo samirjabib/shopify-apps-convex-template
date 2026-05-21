@@ -59,7 +59,6 @@
     "@types/node": "^22.18.8",
     "@types/react": "^18.3.25",
     "@types/react-dom": "^18.3.7",
-    "@vercel/react-router": "^1.3.0",
     "@vitest/ui": "^4.1.7",
     "convex-test": "^0.0.53",
     "graphql-config": "^5.1.1",

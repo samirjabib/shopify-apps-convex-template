@@ -1,5 +1,8 @@
 # @shopify/shopify-app-template-react-router
 
+## 2026.05.21
+- Remove Vercel-specific config (`vercel.json`, `.vercel/`, `@vercel/react-router` preset) so the template stays host-agnostic. Pick deployment target later.
+
 ## 2026.05.20
 - Bump dependencies to latest minor/patch: `@react-router/*` and `react-router` to ^7.15.1, `@shopify/app-bridge-react` to ^4.2.10, `@shopify/shopify-app-react-router` to ^1.2.0, `convex` to ^1.39.1, `i18next` to ^26.2.0, `isbot` to ^5.1.40, `react-i18next` to ^17.0.8, `@biomejs/biome` to 2.4.15, `@vercel/react-router` to ^1.3.0, `vitest` and `@vitest/ui` to ^4.1.7, `convex-test` to ^0.0.53. Major bump: `vite-tsconfig-paths` to ^6.1.1. Majors deferred: react 19, typescript 6, vite 8, @shopify/api-codegen-preset 2, @types/node 25.
 
